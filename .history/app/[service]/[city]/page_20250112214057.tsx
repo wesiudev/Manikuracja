@@ -10,7 +10,7 @@ export function generateStaticParams() {
 export default async function ServiceSlug({
   params,
 }: {
-  params: Promise<{ service: string; city: string }>;
+  params: { service: string; city: string };
 }) {
   const { service, city } = await params;
   const serviceData = await fetch(`http://localhost:3000/services/${service}`);
