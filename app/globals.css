@@ -1,21 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes slideBg {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.infinite-bg {
+  background: radial-gradient(circle at center, #91128770 0%, #47410867 100%);
+  background-size: 150% 100%;
+  animation: slideBg 6s linear infinite;
+  animation-direction: alternate;
 }
