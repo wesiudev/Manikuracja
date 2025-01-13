@@ -27,6 +27,7 @@ export default function Logic({
     []
   );
   const router = useRouter();
+  const [userInteracted, setUserInteracted] = useState(false);
   // Debounce state updates
   const [debouncedCityName, setDebouncedCityName] = useState<string>(city.Name);
   const [debouncedService, setDebouncedService] = useState<string>(service);

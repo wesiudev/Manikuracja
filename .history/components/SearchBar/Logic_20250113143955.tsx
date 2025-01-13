@@ -27,6 +27,7 @@ export default function Logic({
     []
   );
   const router = useRouter();
+  const [userInteracted, setUserInteracted] = useState(false);
   // Debounce state updates
   const [debouncedCityName, setDebouncedCityName] = useState<string>(city.Name);
   const [debouncedService, setDebouncedService] = useState<string>(service);
@@ -155,7 +156,7 @@ export default function Logic({
             name="service"
             value={service}
             onChange={(e) => setService(e.target.value)}
-            placeholder={slugService || "Wybierz usługę"}
+            placeholder="Wybierz usługę"
             className="rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
             autoComplete="off"
             list="no-autocomplete"
@@ -190,7 +191,7 @@ export default function Logic({
             name="city"
             value={city.Name}
             onChange={(e) => setCity({ ...city, Name: e.target.value })}
-            placeholder={slugCity || "Wybierz miasto"}
+            placeholder="Wybierz miasto"
             className="rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
             autoComplete="off"
             list="no-autocomplete"
