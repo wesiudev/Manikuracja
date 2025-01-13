@@ -13,8 +13,10 @@ export default async function ServiceSlug({
   params: Promise<{ service: string; city: string }>;
 }) {
   const { service, city } = await params;
-  const serviceData = await fetch(`http://localhost:3000/services/${service}`);
-  const cityData = await fetch(`http://localhost:3000/cities/${city}`);
+  const serviceData = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/services/${service}`
+  );
+  const cityData = await fetch(`${process.env.NEXT_PUBLIC_URL}/cities/${city}`);
   const s = await serviceData.json();
   const c = await cityData.json();
   return (

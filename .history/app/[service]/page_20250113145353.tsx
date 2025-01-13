@@ -23,12 +23,10 @@ export function generateStaticParams() {
 export default async function ServiceSlug({
   params,
 }: {
-  params: { service: string };
+  params: Promise<{ service: string }>;
 }) {
   const { service } = await params;
-  const data = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/services/${service}`
-  );
+  const data = await fetch(`http://localhost:3000/services/${service}`);
   const s = await data.json();
   return (
     <div>
