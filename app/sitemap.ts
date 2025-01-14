@@ -1,57 +1,57 @@
 import { createLinkFromText } from "@/utils/createLinkFromText";
 import type { MetadataRoute } from "next";
 
-// Helper function to generate URLs for services and cities
-function generateUrls(
-  services: string[],
-  cities: string[]
-): { url: string; lastModified: Date }[] {
-  const linkServices = services.map((service) => createLinkFromText(service));
-  const url = process.env.NEXT_PUBLIC_URL;
-  let idCounter = 1;
+let cachedData: { services: string[]; cities: string[] } | null = null;
+
+async function getCachedServicesAndCities() {
+  if (!cachedData) {
+    const baseUrl = process.env.NEXT_PUBLIC_URL;
+    if (!baseUrl) {
+      throw new Error(
+        "NEXT_PUBLIC_URL is not defined in environment variables."
+      );
+    }
+
+    const [services, cities] = await Promise.all([
+      fetch(`${baseUrl}/services`).then((res) => res.json()),
+      fetch(`${baseUrl}/cities`).then((res) => res.json()),
+    ]);
+
+    cachedData = { services, cities };
+  }
+  return cachedData;
+}
+
+function generateUrls(baseUrl: string, services: string[], cities: string[]) {
+  const linkServices = services.map(createLinkFromText);
   return linkServices.flatMap((service) =>
     cities.map((city) => ({
-      id: idCounter++,
-      url: `${url}/${service}/${city}`,
-      lastModified: new Date(),
+      url: `${baseUrl}/${service}/${city}`,
+      lastModified: new Date(
+        Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000
+      ),
     }))
   );
 }
 
-// Fetch services data
-async function fetchServices(): Promise<string[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/services`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch services data.");
-  }
-  return response.json();
-}
-async function fetchCities(): Promise<string[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/cities`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch services data.");
-  }
-  return response.json();
-}
-
-// Generate all sitemaps
 export async function generateSitemaps() {
-  const cities = await fetchCities();
-  const services = await fetchServices();
-  return generateUrls(services, cities);
+  const { services, cities } = await getCachedServicesAndCities();
+  return Array.from({ length: cities.length * services.length }, (_, id) => ({
+    id,
+  }));
 }
 
-// Generate paginated sitemap
 export default async function sitemap({
   id,
 }: {
   id: number;
 }): Promise<MetadataRoute.Sitemap> {
-  const services = await fetchServices();
-  const cities = await fetchCities();
-  // Google's limit is 50,000 URLs per sitemap
-  const urls = generateUrls(services, cities);
+  const { services, cities } = await getCachedServicesAndCities();
+  const baseUrl = process.env.NEXT_PUBLIC_URL!;
+  const urls = generateUrls(baseUrl, services, cities);
+
   const start = id * 50000;
   const end = start + 50000;
+
   return urls.slice(start, end);
 }

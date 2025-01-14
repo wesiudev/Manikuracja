@@ -3,6 +3,6 @@ import { createLinkFromText } from "@/utils/createLinkFromText";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const cities = data.map((city) => ({ Name: createLinkFromText(city.Name) }));
+  const cities = data.map((city) => createLinkFromText(city.Name));
   return NextResponse.json(cities);
 }
