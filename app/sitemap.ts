@@ -24,12 +24,11 @@ async function getCachedServicesAndCities() {
 
 function generateUrls(baseUrl: string, services: string[], cities: string[]) {
   const linkServices = services.map(createLinkFromText);
+  const date = new Date(Date.now());
   return linkServices.flatMap((service) =>
     cities.map((city) => ({
       url: `${baseUrl}/${service}/${city}`,
-      lastModified: new Date(
-        Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000
-      ),
+      lastModified: date,
     }))
   );
 }
@@ -50,8 +49,8 @@ export default async function sitemap({
   const baseUrl = process.env.NEXT_PUBLIC_URL!;
   const urls = generateUrls(baseUrl, services, cities);
 
-  const start = id * 50000;
-  const end = start + 50000;
+  const start = id * 20000;
+  const end = start + 20000;
 
   return urls.slice(start, end);
 }
