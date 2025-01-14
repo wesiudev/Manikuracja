@@ -1,3 +1,4 @@
+import NotFound from "@/app/not-found";
 import SearchBar from "@/components/SearchBar";
 import data from "polskie-miejscowosci";
 export function generateStaticParams() {
@@ -19,6 +20,9 @@ export default async function ServiceSlug({
   const cityData = await fetch(`${process.env.NEXT_PUBLIC_URL}/cities/${city}`);
   const s = await serviceData.json();
   const c = await cityData.json();
+  if (s.length === 0 || s.length === 0) {
+      return <NotFound />;
+    }
   return (
     <div>
       <SearchBar slugService={s} slugCity={c[0].Name} results={[]} />
