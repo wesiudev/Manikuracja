@@ -27,9 +27,9 @@ export default function CreateAccountForm({
           placeholder="Wpisz email"
           value={userData.email}
           onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-          className="input-lg  bg-white p-3 font-light text-lg text-black "
+          className="rounded-md outline-pink-400 border-gray-300 border bg-white text-black  p-3 text-xl font-light"
         />
-        <div className="flex flex-col space-y-3 w-full">
+        <div className="flex flex-col mt-3 w-full">
           <div className="flex flex-col w-full">
             {" "}
             <label
@@ -47,10 +47,10 @@ export default function CreateAccountForm({
               onChange={(e) =>
                 setUserData({ ...userData, password: e.target.value })
               }
-              className="input-lg  bg-white text-black  p-3 text-xl font-light"
+              className="rounded-md outline-pink-400 border-gray-300 border bg-white text-black  p-3 text-xl font-light"
             />
           </div>
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full mt-3">
             {" "}
             <label
               htmlFor="password"
@@ -67,7 +67,7 @@ export default function CreateAccountForm({
               onChange={(e) =>
                 setUserData({ ...userData, repeatPassword: e.target.value })
               }
-              className="input-lg  bg-white text-black  p-3 text-xl font-light"
+              className="rounded-md outline-pink-400 border-gray-300 border bg-white text-black  p-3 text-xl font-light"
             />
           </div>
         </div>
@@ -77,19 +77,19 @@ export default function CreateAccountForm({
         onClick={() => {
           createAccount();
         }}
-        className="w-full mt-3 py-3.5 disabled:bg-gray-600 bg-[#126b91] hover:bg-opacity-80 duration-150 text-white"
+        className="w-full mt-3 py-3 font-bold bg-pink-500 text-white hover:bg-pink-600 rounded-md"
       >
         {!loading && (
           <div className="flex flex-row items-center justify-center">
-            Utwórz konto
+            Zarejestruj się
           </div>
         )}
         {loading && "Chwila..."}
       </button>
-      <div className="my-6 flex flex-row items-center justify-center">
-        <div className="h-px w-full bg-[#126b91]"></div>
-        <div className="px-12 font-gotham text-gray-600">lub</div>
-        <div className="h-px w-full bg-[#126b91]"></div>
+      <div className="mt-6 mb-5 flex flex-row items-center justify-center">
+        <div className="h-px w-full bg-pink-300"></div>
+        <div className="px-12 text-gray-600">lub</div>
+        <div className="h-px w-full bg-pink-300"></div>
       </div>
       <GoogleAuthButton />
     </div>

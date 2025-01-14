@@ -1,9 +1,8 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { createLinkFromText } from "@/utils/createLinkFromText";
-import Image from "next/image";
-import logo from "../../public/logo.png";
 
 interface City {
   Name: string;
@@ -129,102 +128,86 @@ export default function Logic({
   };
 
   return (
-    <div className="p-6 w-full min-h-[10%] bg-gray-200 rounded-lg">
-      <Image
-        src={logo}
-        width={512}
-        height={256}
-        alt="Rezerwacja paznokci"
-        className="w-[150px]"
-      />
-      <h1 className="mt-3 text-3xl text-zinc-800 drop-shadow-lg shadow-black font-bold">
-        {slugService || (
-          <>
-            Umów się na paznokcie w{" "}
-            <span className="text-[#FF5F8F]">Twoim mieście</span>
-          </>
-        )}
-      </h1>
-      <div className="gap-3 mt-3 flex flex-col lg:grid lg:grid-cols-3 items-center">
-        <div className="relative w-full">
-          <label htmlFor="service" className="text-gray-800">
-            Usługa
-          </label>
-          <input
-            type="text"
-            name="service"
-            value={service}
-            onChange={(e) => setService(e.target.value)}
-            placeholder={slugService || "Wybierz usługę"}
-            className="rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
-            autoComplete="off"
-            list="no-autocomplete"
-          />
-          <datalist id="no-autocomplete"></datalist>
-          {service !== currentServicesArray[0] &&
-            currentServicesArray.length > 0 && (
-              <ul className="z-[60] absolute w-full max-h-[300px] overflow-y-auto mt-2 shadow-lg">
-                {currentServicesArray.map((service, index) => (
-                  <li
-                    key={index}
-                    className={`${
-                      index % 2 === 0 ? "bg-slate-300" : "bg-slate-200"
-                    } px-4 py-2 hover:bg-pink-400 hover:text-white cursor-pointer`}
-                    onClick={() => {
-                      setService(service);
-                      setCurrentServicesArray([]);
-                    }}
-                  >
-                    {service}
-                  </li>
-                ))}
-              </ul>
-            )}
-        </div>
-        <div className="relative w-full">
-          <label htmlFor="city" className="text-gray-800">
-            Miasto
-          </label>
-          <input
-            type="text"
-            name="city"
-            value={city.Name}
-            onChange={(e) => setCity({ ...city, Name: e.target.value })}
-            placeholder={slugCity || "Wybierz miasto"}
-            className="rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
-            autoComplete="off"
-            list="no-autocomplete"
-          />
-          {city.Name !== currentCitiesArray[0]?.Name &&
-            currentCitiesArray.length > 0 && (
-              <ul className="z-[60] absolute w-full max-h-[300px] overflow-y-auto mt-2 shadow-lg">
-                {currentCitiesArray.map((c, index) => (
-                  <li
-                    key={index}
-                    className={`${
-                      index % 2 === 0 ? "bg-slate-300" : "bg-slate-200"
-                    } px-4 py-2 hover:bg-pink-400 hover:text-white cursor-pointer`}
-                    onClick={() => {
-                      setCity({ ...city, Name: c.Name, Province: c.Province });
-                      setCurrentCitiesArray([]);
-                    }}
-                  >
-                    {c.Name}{" "}
-                    <span className="text-xs text-gray-600">{c.Province}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-        </div>
-        <div className="pt-3 w-full">
-          <button
-            type="button"
-            className="w-full px-6 py-3 text-lg rounded-lg bg-pink-500 text-white hover:bg-pink-600 disabled:bg-gray-300"
-            onClick={search}
-          >
-            Szukaj
-          </button>
-        </div>
+    <div className="grid lg:grid-cols-3 gap-4 mt-6">
+      <div className="relative w-full">
+        <label htmlFor="service" className="text-gray-800">
+          Usługa
+        </label>
+        <input
+          type="text"
+          name="service"
+          value={service}
+          onChange={(e) => setService(e.target.value)}
+          placeholder={slugService || "Wybierz usługę"}
+          className="rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+          autoComplete="off"
+          list="no-autocomplete"
+        />
+        <datalist id="no-autocomplete"></datalist>
+        {service.length > 2 &&
+          service !== currentServicesArray[0] &&
+          currentServicesArray.length > 0 && (
+            <ul className="z-[60] absolute w-full max-h-[300px] overflow-y-auto mt-2 shadow-lg">
+              {currentServicesArray.map((service, index) => (
+                <li
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-slate-300" : "bg-slate-200"
+                  } px-4 py-2 hover:bg-pink-400 hover:text-white cursor-pointer`}
+                  onClick={() => {
+                    setService(service);
+                    setCurrentServicesArray([]);
+                  }}
+                >
+                  {service}
+                </li>
+              ))}
+            </ul>
+          )}
+      </div>
+      <div className="relative w-full">
+        <label htmlFor="city" className="text-gray-800">
+          Miasto
+        </label>
+        <input
+          type="text"
+          name="city"
+          value={city.Name}
+          onChange={(e) => setCity({ ...city, Name: e.target.value })}
+          placeholder={slugCity || "Wybierz miasto"}
+          className="rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+          autoComplete="off"
+          list="no-autocomplete"
+        />
+        {city.Name !== currentCitiesArray[0]?.Name &&
+          currentCitiesArray.length > 0 && (
+            <ul className="z-[60] absolute w-full max-h-[300px] overflow-y-auto mt-2 shadow-lg">
+              {currentCitiesArray.map((c, index) => (
+                <li
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-slate-300" : "bg-slate-200"
+                  } px-4 py-2 hover:bg-pink-400 hover:text-white cursor-pointer`}
+                  onClick={() => {
+                    setCity({ ...city, Name: c.Name, Province: c.Province });
+                    setCurrentCitiesArray([]);
+                  }}
+                >
+                  {c.Name}{" "}
+                  <span className="text-xs text-gray-600">{c.Province}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+      </div>
+      <div className="w-full items-end flex">
+        <button
+          type="button"
+          className="w-full py-2 lg:py-0 lg:h-3/5 px-6 text-lg rounded-lg bg-pink-500 text-white hover:bg-pink-600 disabled:bg-gray-300"
+          onClick={search}
+        >
+          Szukaj
+        </button>
       </div>
     </div>
   );

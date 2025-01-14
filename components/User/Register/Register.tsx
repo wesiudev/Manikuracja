@@ -1,20 +1,24 @@
 "use client";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { addDocument, auth, getDocument } from "@/firebase";
 import { toast } from "react-toastify";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import CreateAccountForm from "./CreateAccountForm";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { setUser } from "@/redux/slices/user";
 import { useDispatch } from "react-redux";
 import { errorCatcher } from "@/utils/errorCatcher";
-export default function Register() {
+import CreateAccountForm from "./CreateAccountForm";
+export default function Register({
+  registerModalOpen,
+  setRegisterModalOpen,
+  setLoginModalOpen,
+}: {
+  registerModalOpen: boolean;
+  setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [user, loading] = useAuthState(auth);
-  const router = useRouter();
   const [userData, setUserData] = useState({
-    phoneNumber: "",
     password: "",
     repeatPassword: "",
     email: "",
@@ -23,11 +27,10 @@ export default function Register() {
   const [isLoading, setLoading] = useState(false);
   function createAccount() {
     setLoading(true);
-    const id = toast.loading(<span>Sekundarnie...</span>, {
+    const id = toast.loading(<span>Rejestruję...</span>, {
       position: "top-right",
       isLoading: true,
     });
-
     if (userData.password !== userData.repeatPassword) {
       setLoading(false);
       toast.update(id, {
@@ -38,7 +41,6 @@ export default function Register() {
       });
       return;
     }
-
     if (userData.password?.length < 6) {
       setLoading(false);
       toast.update(id, {
@@ -49,7 +51,6 @@ export default function Register() {
       });
       return;
     }
-
     if (!userData.email) {
       setLoading(false);
       toast.update(id, {
@@ -60,42 +61,30 @@ export default function Register() {
       });
       return;
     }
-
     (async () => {
       try {
         await createUserWithEmailAndPassword(
           auth,
           userData.email,
           userData.password
-        ).then((userCredential) => {
+        ).then((userCredential: UserCredential) => {
           addDocument("users", userCredential.user?.uid, {
-            leads: [],
-            city: "",
-            description: "",
-            title: "",
-            pseudo: "",
             uid: userCredential.user?.uid,
             name: "",
-            email: userData.email,
+            email: userData?.email,
             photoURL: "",
+            city: "",
             emailVerified: false,
             profileComments: [],
-            projects: [],
-            history: [
-              {
-                action: `Zapraszamy do konfiguracji profilu!`,
-                creationTime: Date.now(),
-              },
-            ],
+            services: [],
+            leads: [],
           });
-
           toast.update(id, {
             render: "Konto utworzone pomyślnie!",
             type: "success",
             isLoading: false,
             autoClose: 3000,
           });
-          router.push("/user");
           setLoading(false);
         });
       } catch (err) {
@@ -113,43 +102,48 @@ export default function Register() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (user && !loading) {
-      getDocument("users", user?.uid)
-        .then((data) => {
-          dispatch(setUser(data));
-        })
-        .then(() => {
-          router.push("/user");
-        });
+      getDocument("users", user?.uid).then((data) => {
+        dispatch(setUser(data));
+      });
     }
   }, [loading, user]);
   return (
-    <div className="rounded-t-xl w-[88vw] sm:w-[50vw] p-6 2xl:px-12 bg-white">
-      <h2
-        className={`text-black text-left font-bold text-2xl xl:text-3xl drop-shadow-xl shadow-black mb-6`}
+    <div
+      onClick={() => {
+        setRegisterModalOpen(false);
+      }}
+      className={`bg-black/50 z-[50] fixed left-0 top-0 w-screen h-full overflow-y-scroll p-6 lg:p-12 xl:p-40 2xl:p-64 !py-6 lg:!py-12 xl:!py-24  ${
+        registerModalOpen ? "block" : "hidden"
+      }`}
+    >
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className="h-max bg-gray-200 mx-auto max-w-[40rem] p-6 rounded-xl shadow-sm shadow-zinc-800"
       >
-        Zarejestruj się
-      </h2>
-      <CreateAccountForm
-        userData={userData}
-        setUserData={setUserData}
-        createAccount={createAccount}
-        loading={isLoading}
-      />
-      <div className="w-full flex flex-col justify-center items-center mt-12">
-        <button
-          disabled
-          className="rounded-md cursor-not-allowed !bg-[#E3ECF0] !text-zinc-400 !font-normal py-2 px-4"
+        <h2
+          className={`text-black text-left font-bold text-2xl xl:text-3xl drop-shadow-xl shadow-black mb-6`}
         >
           Zarejestruj się
-        </button>
-        <div className="flex flex-row items-center flex-wrap mt-8 font-gotham text-black  font-light text-lg">
+        </h2>
+        <CreateAccountForm
+          userData={userData}
+          setUserData={setUserData}
+          createAccount={createAccount}
+          loading={isLoading}
+        />
+        <div className="text-center justify-center mt-3 flex flex-row flex-wrap text-black font-light text-lg">
           Posiadasz już konto?{" "}
-          <Link
-            className="ml-2 text-[#126b91] underline hover:no-underline"
-            href="/login"
+          <button
+            className="ml-2 text-[#126b91] hover:underline"
+            onClick={() => {
+              setRegisterModalOpen(false);
+              setLoginModalOpen(true);
+            }}
           >
             Zaloguj się
-          </Link>
+          </button>
         </div>
       </div>
     </div>

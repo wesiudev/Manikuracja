@@ -4,30 +4,34 @@ import logo from "../public/logo.png";
 import { FaChevronDown, FaHome, FaPlusCircle, FaTag } from "react-icons/fa";
 import { useState } from "react";
 import { FaBriefcase, FaChevronLeft, FaList } from "react-icons/fa6";
-import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import Login from "./User/Login";
+import Register from "./User/Register/Register";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import InitUser from "./User/Init";
 export default function Nav() {
+  const { user } = useSelector((state: RootState) => state.user);
   const [expandedItems, setExpandedItems] = useState([]);
   const [isNavOpen, setNavOpen] = useState(false);
-  const router = useRouter();
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [registerModalOpen, setRegisterModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState<boolean>(false);
   const navItems = [
-    { title: "Przegląd", href: `/user`, icon: <FaHome /> },
+    { title: "Przegląd", action: () => console.log("ok"), icon: <FaHome /> },
     {
       title: "Profil",
-      href: `/`,
+      action: () => console.log("ok"),
       expandable: true,
       icon: <FaBriefcase />,
       subItems: [
         {
-          title: "Dodaj ofertę",
-          href: `/user/add_job_offer`,
+          title: "Edytuj profil",
+          action: () => console.log("ok"),
           icon: <FaPlusCircle />,
         },
         {
           title: "Moje ogłoszenia",
-          href: `/user/job_offers`,
+          action: () => console.log("ok"),
           icon: <FaList />,
         },
       ],
@@ -35,35 +39,39 @@ export default function Nav() {
     {
       expandable: true,
       title: "Usługi",
-      href: ``,
+      action: () => console.log("ok"),
       icon: <FaTag />,
       subItems: [
         {
           title: "Dodaj usługę",
-          href: `/user/new_service`,
+          action: () => console.log("ok"),
           icon: <FaPlusCircle />,
         },
         {
           title: "Moje usługi",
-          href: `/user/services`,
+          action: () => console.log("ok"),
           icon: <FaList />,
         },
       ],
     },
   ];
-  const pathname = usePathname();
   return (
     <>
-      {(loginModalOpen || registerModalOpen) && (
-        <div
-          onClick={() => {
-            setLoginModalOpen(false);
-            setRegisterModalOpen(false);
-          }}
-          className="fixed left-0 top-0 bg-black/50 z-[55] w-full h-full"
-        ></div>
+      <InitUser />
+      {loginModalOpen && (
+        <Login
+          loginModalOpen={loginModalOpen}
+          setRegisterModalOpen={setRegisterModalOpen}
+          setLoginModalOpen={setLoginModalOpen}
+        />
       )}
-
+      {registerModalOpen && (
+        <Register
+          registerModalOpen={registerModalOpen}
+          setRegisterModalOpen={setRegisterModalOpen}
+          setLoginModalOpen={setLoginModalOpen}
+        />
+      )}
       <div className="h-full">
         {isNavOpen && (
           <div className="lg:hidden fixed left-0 top-0 w-full h-full bg-black/50 z-[10]"></div>
@@ -95,13 +103,7 @@ export default function Nav() {
                   className="text-lg font-sans font-bold flex flex-row items-center py-2 px-6 rounded-br-3xl lg:rounded-tl-lg w-max max-w-full"
                 >
                   <div className="">
-                    <Image
-                      src={logo}
-                      width={1024}
-                      height={1024}
-                      alt=""
-                      className=""
-                    />
+                    <Image src={logo} alt="Manikuracja logo" className="" />
                   </div>
                 </Link>
 
@@ -123,7 +125,7 @@ export default function Nav() {
                                 ]);
                               }
                             } else {
-                              router.push(item.href);
+                              item.action();
                               setNavOpen(!isNavOpen);
                             }
                           }}
@@ -177,14 +179,10 @@ export default function Nav() {
                                 <div key={subIndex}>
                                   <button
                                     onClick={() => {
-                                      router.push(subItem.href);
+                                      subItem.action();
                                       setNavOpen(!isNavOpen);
                                     }}
-                                    className={`flex items-center py-2 px-4 w-full ${
-                                      subItem.href === pathname
-                                        ? "bg-gray-300"
-                                        : "hover:bg-gray-300"
-                                    } rounded-md`}
+                                    className={`hover:bg-gray-300 flex items-center py-2 px-4 w-full rounded-md`}
                                   >
                                     {subItem.icon}
                                     <div className="ml-2">{subItem.title}</div>
@@ -198,26 +196,29 @@ export default function Nav() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3 px-6 pb-6">
-                <button
-                  onClick={() => {
-                    setNavOpen(!isNavOpen);
-                    setRegisterModalOpen(true);
-                  }}
-                  className={`rounded-md text-white text-sm relative justify-center flex items-center py-[0.65rem] duration-150 w-full hover:bg-[#FF5F8F]/65 bg-[#FF5F8F]/85`}
-                >
-                  Utwórz konto
-                </button>
-                <button
-                  onClick={() => {
-                    setNavOpen(!isNavOpen);
-                    setLoginModalOpen(true);
-                  }}
-                  className={`rounded-md text-white text-sm relative justify-center flex items-center py-[0.65rem] duration-150 w-full hover:bg-[#FF5F8F]/65 bg-[#FF5F8F]/85`}
-                >
-                  Zaloguj się
-                </button>
-              </div>
+              {user.uid === "" && (
+                <div className="grid grid-cols-2 gap-3 px-6 pb-6">
+                  <button
+                    onClick={() => {
+                      setNavOpen(!isNavOpen);
+                      setRegisterModalOpen(true);
+                    }}
+                    className={`rounded-md text-white text-sm relative justify-center flex items-center py-[0.65rem] duration-150 w-full hover:bg-[#FF5F8F]/65 bg-[#FF5F8F]/85`}
+                  >
+                    Utwórz konto
+                  </button>
+                  <button
+                    onClick={() => {
+                      setNavOpen(!isNavOpen);
+                      setLoginModalOpen(true);
+                    }}
+                    className={`rounded-md text-white text-sm relative justify-center flex items-center py-[0.65rem] duration-150 w-full hover:bg-[#FF5F8F]/65 bg-[#FF5F8F]/85`}
+                  >
+                    Zaloguj się
+                  </button>
+                </div>
+              )}
+              {user.uid !== "" && <div className="mb-24">{user.email}</div>}
             </div>
           </div>
         </div>

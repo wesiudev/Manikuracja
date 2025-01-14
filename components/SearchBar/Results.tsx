@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import noResultsImage from "../../public/no-results.png";
 export default function Results({

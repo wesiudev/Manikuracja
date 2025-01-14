@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
 import { createUser, getDocument, provider } from "@/firebase";
-import { signInWithPopup, getAuth } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { signInWithPopup, getAuth, UserCredential } from "firebase/auth";
 import { errorCatcher } from "@/utils/errorCatcher";
 async function sendVerificationEmail(email: string, verificationCode: string) {
   const data = await fetch(
@@ -12,37 +11,26 @@ async function sendVerificationEmail(email: string, verificationCode: string) {
 }
 
 export default function GoogleAuthButton() {
-  const router = useRouter();
-
   async function googleHandler() {
     const auth = getAuth();
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const { user }: UserCredential = await result;
       const existingUser = await getDocument("users", user?.uid);
       if (!existingUser) {
         await createUser({
-          leads: [],
           uid: user?.uid,
           name: user?.displayName,
           email: user?.email,
-          hourRate: "",
           photoURL: user?.photoURL,
-          totalSpent: 0,
-          totalReceived: 0,
-          tokens: 20,
-          isPremium: false,
+          city: "",
           emailVerified: false,
-          ideas: [],
-          jobOffers: [],
-          groups: [],
           profileComments: [],
-          generatedImages: [],
-          projects: [],
+          services: [],
+          leads: [],
         });
         await sendVerificationEmail(user.email || "", user.uid);
       }
-      router.push(`${process.env.NEXT_PUBLIC_URL}/user`);
     } catch (error) {
       errorCatcher(error);
     }
@@ -52,7 +40,7 @@ export default function GoogleAuthButton() {
       <button
         onClick={() => googleHandler()}
         type="button"
-        className={`block bg-white hover:bg-gray-100 focus:bg-gray-100 text-black font-gotham font-semibold px-4 py-3 border border-gray-300`}
+        className={`block bg-white hover:bg-gray-100 focus:bg-gray-100 mx-auto rounded-lg text-black font-semibold px-4 py-3 border border-gray-300`}
       >
         <div className="flex items-center justify-center">
           <svg

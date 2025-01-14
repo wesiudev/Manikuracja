@@ -1,4 +1,5 @@
 import SearchBar from "@/components/SearchBar";
+import NotFound from "../not-found";
 
 interface IService {
   name: string;
@@ -30,6 +31,9 @@ export default async function ServiceSlug({
     `${process.env.NEXT_PUBLIC_URL}/services/${service}`
   );
   const s = await data.json();
+  if (s.length === 0) {
+    return <NotFound />;
+  }
   return (
     <div>
       <SearchBar slugService={s} slugCity="" results={[]} />
