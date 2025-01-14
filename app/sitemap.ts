@@ -1,6 +1,6 @@
 import { createLinkFromText } from "@/utils/createLinkFromText";
 import type { MetadataRoute } from "next";
-
+export const dynamic = "force-dynamic";
 let cachedData: { services: string[]; cities: string[] } | null = null;
 
 async function getCachedServicesAndCities() {
