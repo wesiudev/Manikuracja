@@ -38,9 +38,10 @@ function generateLinks(
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const sitemapId = parseInt(params.id, 10);
+  const id = (await params).id;
+  const sitemapId = parseInt(id, 10);
 
   if (isNaN(sitemapId)) {
     return NextResponse.json({ error: "Invalid sitemap ID" }, { status: 400 });
