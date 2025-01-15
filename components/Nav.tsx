@@ -77,7 +77,7 @@ export default function Nav() {
           <div className="lg:hidden fixed left-0 top-0 w-full h-full bg-black/50 z-[10]"></div>
         )}
         <div
-          className={`z-[10] text-gray-800 bg-white shadow-md shadow-black pt-6 h-full fixed right-0 scrollbar ${
+          className={`z-[10] text-gray-800 bg-white pt-6 h-full fixed right-0 scrollbar ${
             isNavOpen
               ? "translate-x-[0] duration-300"
               : "translate-x-[300px] lg:-translate-x-0 duration-300"

@@ -8,7 +8,7 @@ export default function Results({
   results: any[];
 }) {
   return (
-    <div className="p-6 w-full bg-gray-200 rounded-lg mt-6">
+    <div className="p-6 py-12 w-full bg-gray-200 rounded-lg mt-6">
       {results.length > 0 && (
         <div className="">
           Wszystkie wyniki dla
@@ -28,8 +28,6 @@ export default function Results({
       <div className="flex flex-col items-center justify-center gap-6">
         <Image
           src={noResultsImage}
-          width={512}
-          height={512}
           alt="Malowane Paznokcie"
           className="opacity-10 w-[250px]"
         />
