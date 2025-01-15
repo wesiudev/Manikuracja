@@ -1,37 +1,62 @@
+import { IService } from "@/types";
 import { NextResponse } from "next/server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_URL!;
 const LINKS_PER_SITEMAP = 50000; // Google's limit
 
-// Mock function to fetch the total links (replace with actual logic)
-async function getTotalLinks() {
-  return 7811146; // Total number of links
+// Function to fetch services and cities data
+async function fetchServicesAndCities() {
+  const [services, cities] = await Promise.all([
+    fetch(`${BASE_URL}/services`).then((res) => res.json()),
+    fetch(`${BASE_URL}/cities`).then((res) => res.json()),
+  ]);
+  return { services, cities };
 }
 
-// Mock function to fetch links for a specific range (replace with DB or API logic)
-async function getLinks(start: number, end: number) {
-  return Array.from({ length: end - start }, (_, i) => ({
-    url: `${BASE_URL}/item-${start + i}`,
-    lastModified: new Date().toISOString(),
-  }));
+// Function to generate links for a specific range
+function generateLinks(
+  services: IService[],
+  cities: string[],
+  start: number,
+  end: number
+) {
+  const links: { url: string; lastModified: string }[] = [];
+  const date = new Date().toISOString();
+
+  for (let i = start; i < end && i < services.length * cities.length; i++) {
+    const serviceIndex = Math.floor(i / cities.length);
+    const cityIndex = i % cities.length;
+
+    links.push({
+      url: `${BASE_URL}/${services[serviceIndex].flatten_name}/${cities[cityIndex]}`,
+      lastModified: date,
+    });
+  }
+
+  return links;
 }
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const id = (await params).id;
-  const sitemapId = parseInt(id as string, 10);
+  const sitemapId = parseInt(params.id, 10);
 
-  const totalLinks = await getTotalLinks();
+  if (isNaN(sitemapId)) {
+    return NextResponse.json({ error: "Invalid sitemap ID" }, { status: 400 });
+  }
+
+  const { services, cities } = await fetchServicesAndCities();
+
+  const totalLinks = services.length * cities.length;
   const start = sitemapId * LINKS_PER_SITEMAP;
   const end = Math.min(start + LINKS_PER_SITEMAP, totalLinks);
 
   if (start >= totalLinks) {
-    return NextResponse.json({ error: "Sitemap not found" });
+    return NextResponse.json({ error: "Sitemap not found" }, { status: 404 });
   }
 
-  const links = await getLinks(start, end);
+  const links = generateLinks(services, cities, start, end);
 
   const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
