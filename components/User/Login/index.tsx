@@ -3,7 +3,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth, getDocument } from "@/firebase";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import GoogleAuthButton from "@/components/GoogleButton";
 import { FaKey } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -15,23 +14,22 @@ export default function Login({
   loginModalOpen,
   setLoginModalOpen,
   setRegisterModalOpen,
+  setNavOpen,
 }: {
   loginModalOpen: boolean;
   setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [user, loading] = useAuthState(auth);
-  const router = useRouter();
   const [isThinking, setThinking] = useState(false);
   const [userData, setUserData] = useState({
-    phoneNumber: "",
     password: "",
-    passwordRepeat: "",
     email: "",
   });
   function signIn() {
     setThinking(true);
-    const id = toast.loading(<span>Loguję...</span>, {
+    const id = toast.loading("Proszę czekać...", {
       position: "top-right",
       isLoading: true,
     });
@@ -50,7 +48,8 @@ export default function Login({
             autoClose: 3000,
           });
           setThinking(false);
-          router.push("/user");
+          setNavOpen(true);
+          setLoginModalOpen(false);
         });
       } catch (err) {
         const errorMsg = errorCatcher(err);
@@ -61,19 +60,16 @@ export default function Login({
           autoClose: 3000,
         });
         setThinking(false);
+        setNavOpen(true);
       }
     })();
   }
   const dispatch = useDispatch();
   useEffect(() => {
     if (user && !loading) {
-      getDocument("users", user?.uid)
-        .then((data) => {
-          dispatch(setUser(data));
-        })
-        .then(() => {
-          router.push("/user");
-        });
+      getDocument("users", user?.uid).then((data) => {
+        dispatch(setUser(data));
+      });
     }
   }, [loading, user]);
   return (
@@ -156,7 +152,11 @@ export default function Login({
             <div className="px-12 text-gray-600">lub</div>
             <div className="h-px w-full bg-pink-300"></div>
           </div>
-          <GoogleAuthButton />
+          <GoogleAuthButton
+            setNavOpen={setNavOpen}
+            setRegisterModalOpen={setRegisterModalOpen}
+            setLoginModalOpen={setLoginModalOpen}
+          />
           <div className="text-center text-black font-light text-lg">
             Nie posiadasz jeszcze konta?{" "}
             <button

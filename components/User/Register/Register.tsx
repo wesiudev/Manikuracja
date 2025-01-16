@@ -12,10 +12,12 @@ export default function Register({
   registerModalOpen,
   setRegisterModalOpen,
   setLoginModalOpen,
+  setNavOpen,
 }: {
   registerModalOpen: boolean;
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [user, loading] = useAuthState(auth);
   const [userData, setUserData] = useState({
@@ -86,6 +88,8 @@ export default function Register({
             autoClose: 3000,
           });
           setLoading(false);
+          setRegisterModalOpen(false);
+          setNavOpen(true);
         });
       } catch (err) {
         const errorMsg = errorCatcher(err);
@@ -132,6 +136,7 @@ export default function Register({
           setUserData={setUserData}
           createAccount={createAccount}
           loading={isLoading}
+          setNavOpen={setNavOpen}
         />
         <div className="text-center justify-center mt-3 flex flex-row flex-wrap text-black font-light text-lg">
           Posiadasz już konto?{" "}

@@ -3,14 +3,16 @@ import React from "react";
 import { createUser, getDocument, provider } from "@/firebase";
 import { signInWithPopup, getAuth, UserCredential } from "firebase/auth";
 import { errorCatcher } from "@/utils/errorCatcher";
-async function sendVerificationEmail(email: string, verificationCode: string) {
-  const data = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/sendVerificationEmail?email=${email}&verificationCode=${verificationCode}`
-  );
-  return data;
-}
 
-export default function GoogleAuthButton() {
+export default function GoogleAuthButton({
+  setNavOpen,
+  setRegisterModalOpen,
+  setLoginModalOpen,
+}: {
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   async function googleHandler() {
     const auth = getAuth();
     try {
@@ -29,11 +31,13 @@ export default function GoogleAuthButton() {
           services: [],
           leads: [],
         });
-        await sendVerificationEmail(user.email || "", user.uid);
       }
     } catch (error) {
       errorCatcher(error);
     }
+    setNavOpen(true);
+    setRegisterModalOpen(false);
+    setLoginModalOpen(false);
   }
   return (
     <div className="google-button-container">

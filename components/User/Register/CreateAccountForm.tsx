@@ -7,11 +7,13 @@ export default function CreateAccountForm({
   setUserData,
   userData,
   loading,
+  setNavOpen,
 }: {
   createAccount: any;
   setUserData: any;
   userData: any;
   loading: boolean;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div>
@@ -91,7 +93,7 @@ export default function CreateAccountForm({
         <div className="px-12 text-gray-600">lub</div>
         <div className="h-px w-full bg-pink-300"></div>
       </div>
-      <GoogleAuthButton />
+      <GoogleAuthButton setNavOpen={setNavOpen} />
     </div>
   );
 }

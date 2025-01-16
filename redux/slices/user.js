@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export const initialState = {
   user: {
     uid: "",
     name: "",
     email: "",
     photoURL: "",
     city: "",
+    seek: false,
     emailVerified: false,
     profileComments: [],
     services: [],
-    leads: [],
   },
 };
 
