@@ -10,6 +10,9 @@ export async function GET(
   const city = data.find(
     (city) => createLinkFromText(city.Name) === name.toLowerCase()
   );
-
-  return NextResponse.json(city);
+  if (city) {
+    return NextResponse.json(city);
+  } else {
+    return NextResponse.json({ error: "City doesn't exist!" });
+  }
 }

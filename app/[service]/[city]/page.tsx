@@ -24,12 +24,12 @@ export default async function ServiceCitySlug({
   });
   const s = await serviceData.json();
   const c = await cityData.json();
-  if (s.length === 0 || s.length === 0) {
+  if (s.error || s.error) {
     return <NotFound />;
   }
   return (
     <div>
-      <SearchBar slugService={s} slugCity={c[0].Name} results={[]} />
+      <SearchBar slugService={s} slugCity={c.Name} results={[]} />
     </div>
   );
 }

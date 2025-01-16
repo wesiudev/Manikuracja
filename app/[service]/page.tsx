@@ -22,7 +22,7 @@ export default async function ServiceSlug({
     { next: { revalidate: 3600 } }
   );
   const s = await data.json();
-  if (s.length === 0) {
+  if (s.error) {
     return <NotFound />;
   }
   return (
