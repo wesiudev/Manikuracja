@@ -18,7 +18,7 @@ export default async function ServiceSlug({
 }) {
   const { service } = await params;
   const data = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/services/${service}`,
+    `${process.env.NEXT_PUBLIC_URL}/service/${service}`,
     { next: { revalidate: 3600 } }
   );
   const s = await data.json();
