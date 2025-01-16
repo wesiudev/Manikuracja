@@ -8,12 +8,16 @@ export default function CreateAccountForm({
   userData,
   loading,
   setNavOpen,
+  setRegisterModalOpen,
+  setLoginModalOpen,
 }: {
   createAccount: any;
   setUserData: any;
   userData: any;
   loading: boolean;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div>
@@ -93,7 +97,11 @@ export default function CreateAccountForm({
         <div className="px-12 text-gray-600">lub</div>
         <div className="h-px w-full bg-pink-300"></div>
       </div>
-      <GoogleAuthButton setNavOpen={setNavOpen} />
+      <GoogleAuthButton
+        setNavOpen={setNavOpen}
+        setRegisterModalOpen={setRegisterModalOpen}
+        setLoginModalOpen={setLoginModalOpen}
+      />
     </div>
   );
 }

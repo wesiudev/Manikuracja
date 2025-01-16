@@ -137,6 +137,8 @@ export default function Register({
           createAccount={createAccount}
           loading={isLoading}
           setNavOpen={setNavOpen}
+          setRegisterModalOpen={setRegisterModalOpen}
+          setLoginModalOpen={setLoginModalOpen}
         />
         <div className="text-center justify-center mt-3 flex flex-row flex-wrap text-black font-light text-lg">
           Posiadasz już konto?{" "}
