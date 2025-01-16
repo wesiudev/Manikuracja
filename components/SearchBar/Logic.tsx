@@ -34,7 +34,10 @@ export default function Logic({
   const fetchServices = async (query: string, signal: AbortSignal) => {
     try {
       const serviceLink = createLinkFromText(query);
-      const response = await fetch(`/services/${serviceLink}`, { signal });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/services/${serviceLink}`,
+        { signal }
+      );
       const data = await response.json();
       setCurrentServicesArray(data);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,7 +52,10 @@ export default function Logic({
   const fetchCities = async (query: string, signal: AbortSignal) => {
     try {
       const cityLink = createLinkFromText(query);
-      const response = await fetch(`/cities/${cityLink}`, { signal });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/cities/${cityLink}`,
+        { signal }
+      );
       const data: City[] = await response.json();
 
       const uniqueCities = data.filter(
@@ -118,12 +124,12 @@ export default function Logic({
     if (!city.Name && service) {
       const cityLink = createLinkFromText(city.Name);
       const serviceLink = createLinkFromText(service);
-      router.push(`/${serviceLink}/${cityLink}`);
+      router.push(`${process.env.NEXT_PUBLIC_URL}/${serviceLink}/${cityLink}`);
     }
     if (city.Name && service) {
       const cityLink = createLinkFromText(city.Name);
       const serviceLink = createLinkFromText(service);
-      router.push(`/${serviceLink}/${cityLink}`);
+      router.push(`${process.env.NEXT_PUBLIC_URL}/${serviceLink}/${cityLink}`);
     }
   };
 

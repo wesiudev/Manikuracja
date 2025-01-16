@@ -1,10 +1,11 @@
 import NotFound from "@/app/not-found";
 import SearchBar from "@/components/SearchBar";
-import data from "polskie-miejscowosci";
-export function generateStaticParams() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return data.map((city: any) => ({
-    params: { city: city.Name },
+export async function generateStaticParams() {
+  const cities = await fetch(`${process.env.NEXT_PUBLIC_URL}/cities`, {
+    next: { revalidate: 3600 },
+  }).then((res) => res.json());
+  return cities.map((city: string) => ({
+    params: { city },
   }));
 }
 
