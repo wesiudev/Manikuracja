@@ -1,23 +1,13 @@
 import SearchBar from "@/components/SearchBar";
 import NotFound from "../not-found";
+import { IService } from "@/types";
 
-interface IService {
-  name: string;
-  description: string;
-  type: string;
-  ownerId: string;
-  id: string;
-}
-export function generateStaticParams() {
-  const services: IService[] = Array.from({ length: 10 }).map((_, i) => ({
-    id: `${i}`,
-    name: `Service ${i}`,
-    description: `This is the description of service ${i}`,
-    ownerId: `${i}`,
-    type: "Manicure Hybrydowy",
-  }));
+export async function generateStaticParams() {
+  const services = await fetch(`${process.env.NEXT_PUBLIC_URL}/services`, {
+    next: { revalidate: 3600 },
+  }).then((res) => res.json());
   return services.map((service: IService) => ({
-    params: { service: service.type },
+    params: { service: service.flatten_name },
   }));
 }
 
