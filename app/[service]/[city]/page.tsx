@@ -16,13 +16,12 @@ export default async function ServiceCitySlug({
 }) {
   const { service, city } = await params;
   const serviceData = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/services/${service}`,
+    `${process.env.NEXT_PUBLIC_URL}/service/${service}`,
     { next: { revalidate: 3600 } }
   );
-  const cityData = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/cities/${city}`,
-    { next: { revalidate: 3600 } }
-  );
+  const cityData = await fetch(`${process.env.NEXT_PUBLIC_URL}/city/${city}`, {
+    next: { revalidate: 3600 },
+  });
   const s = await serviceData.json();
   const c = await cityData.json();
   if (s.length === 0 || s.length === 0) {
