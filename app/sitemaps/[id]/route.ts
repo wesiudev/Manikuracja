@@ -32,13 +32,6 @@ function generateLinks(
       lastModified: date,
     });
   }
-  cities.forEach((city) => {
-    links.push({
-      url: `${BASE_URL}/paznokcie/${city.id}`,
-      lastModified: date,
-    });
-  });
-
   return links;
 }
 

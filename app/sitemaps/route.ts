@@ -20,10 +20,6 @@ const links = [
       lastModified: date,
     }))
   ),
-  ...cities.map((city: { id: string; name: string }) => ({
-    url: `${BASE_URL}/paznokcie/${city.id}`,
-    lastModified: date,
-  })),
 ];
 
 export async function GET() {
