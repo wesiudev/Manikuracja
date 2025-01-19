@@ -28,7 +28,7 @@ function generateLinks(
     const cityIndex = i % cities.length;
 
     links.push({
-      url: `${BASE_URL}/${services[serviceIndex].flatten_name}/${cities[cityIndex]}`,
+      url: `${BASE_URL}/${services[serviceIndex].flatten_name}/${cities[cityIndex].id}`,
       lastModified: date,
     });
   }
