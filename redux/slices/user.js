@@ -7,10 +7,14 @@ export const initialState = {
     email: "",
     photoURL: "",
     city: "",
+    description: "",
+    logo: "",
     seek: false,
     emailVerified: false,
+    configured: false,
     profileComments: [],
     services: [],
+    location: { lng: 21.0122287, lat: 52.2296756, address: "" },
   },
 };
 

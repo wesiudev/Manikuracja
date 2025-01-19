@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function ChooseAccountType({
   setStep,
+  setProfileEditOpen,
 }: {
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  setProfileEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
@@ -20,7 +22,7 @@ export default function ChooseAccountType({
           onClick={() => {
             dispatch(setUser({ ...user, seek: false }));
           }}
-          className={`rounded-lg hover:bg-[#46829c27] hover:shadow-sm hover:shadow-[#46829cc5] duration-300 p-3 flex flex-col py-5 border-gray-300 border hover:border-[#126b91] ${
+          className={`rounded-lg hover:bg-[#46829c27] hover:shadow-sm bg-white hover:shadow-[#46829cc5] duration-300 p-3 flex flex-col py-5 border-gray-300 border hover:border-[#126b91] ${
             !seek &&
             "bg-[#46829c27] shadow-[#46829cc5] shadow-sm border-[#126b91]"
           }`}
@@ -50,7 +52,7 @@ export default function ChooseAccountType({
           onClick={() => {
             dispatch(setUser({ ...user, seek: true }));
           }}
-          className={`rounded-lg hover:bg-[#46829c27] hover:shadow-sm hover:shadow-[#46829cc5] duration-300 p-3 flex flex-col py-5 border-gray-300 border hover:border-[#126b91] ${
+          className={`rounded-lg hover:bg-[#46829c27] hover:shadow-sm hover:shadow-[#46829cc5] bg-white duration-300 p-3 flex flex-col py-5 border-gray-300 border hover:border-[#126b91] ${
             seek &&
             "bg-[#46829c27] shadow-[#46829cc5] shadow-sm border-[#126b91]"
           }`}
@@ -79,14 +81,22 @@ export default function ChooseAccountType({
           </span>
         </button>
       </div>
-      <button
-        onClick={() => {
-          setStep(1);
-        }}
-        className="px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
-      >
-        Zatwierdź
-      </button>
+      <div className="flex items-center justify-center w-full">
+        <button
+          onClick={() => setProfileEditOpen(false)}
+          className="px-6 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 mx-auto"
+        >
+          Wyjście
+        </button>
+        <button
+          onClick={() => {
+            setStep(1);
+          }}
+          className="w-max mx-auto mt-4 px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
+        >
+          Dalej (2/4)
+        </button>
+      </div>
     </div>
   );
 }

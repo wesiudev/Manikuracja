@@ -12,7 +12,7 @@ export async function GET(
     (service: IService) => service.flatten_name === name
   );
   if (service) {
-    return NextResponse.json(service.real_name);
+    return NextResponse.json(service);
   } else {
     return NextResponse.json({ error: "Service doesn;t exist!" });
   }

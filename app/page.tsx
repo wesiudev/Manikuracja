@@ -5,20 +5,20 @@ export default async function Home() {
     <div>
       {/* Search Section */}
 
-      <SearchBar slugService="" slugCity="" results={[]} />
+      <SearchBar slugCity="" results={[]} />
 
       {/* Highlights Section */}
       <div>
         <div className="mt-6 rounded-lg p-6 py-12 bg-gray-200">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold mb-4 text-center">
-              Znajdź najlepszego specjalistę manicure i pedicure
+            <h2 className="text-4xl font-bold mb-4 text-center text-zinc-800 drop-shadow-sm shadow-black">
+              Znajdź ulubionego specjalistę manicure i pedicure
             </h2>
             <p className="text-lg text-center mb-6">
-              Wybierz spośród setek specjalistów w Twojej okolicy.
+              Wybierz spośród najlepszych specjalistów w Twojej okolicy.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-6 max-w-6xl mx-auto">
             <div className="p-6 bg-white shadow-md rounded-lg">
               <img
                 src="/home/feature1.jpg"
@@ -63,7 +63,7 @@ export default async function Home() {
         {/* Popular Services Section */}
         <div className="py-12 bg-pink-50 mt-6 rounded-lg">
           <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-pink-400 mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-zinc-800 drop-shadow-sm shadow-black mb-6">
               Popularne usługi
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -73,7 +73,7 @@ export default async function Home() {
                   alt="Manicure klasyczny"
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
-                <h3 className="text-xl font-semibold text-pink-400 mb-2">
+                <h3 className="text-xl font-semibold text-zinc-700 drop-shadow-sm shadow-black mb-2">
                   Manicure klasyczny
                 </h3>
                 <p className="text-gray-600">
@@ -86,7 +86,7 @@ export default async function Home() {
                   alt="Manicure hybrydowy"
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
-                <h3 className="text-xl font-semibold text-pink-400 mb-2">
+                <h3 className="text-xl font-semibold text-zinc-700 drop-shadow-sm shadow-black mb-2">
                   Manicure hybrydowy
                 </h3>
                 <p className="text-gray-600">
@@ -99,7 +99,7 @@ export default async function Home() {
                   alt="Manicure magnetyczny"
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
-                <h3 className="text-xl font-semibold text-pink-400 mb-2">
+                <h3 className="text-xl font-semibold text-zinc-700 drop-shadow-sm shadow-black mb-2">
                   Manicure magnetyczny
                 </h3>
                 <p className="text-gray-600">

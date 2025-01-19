@@ -28,13 +28,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`lg:pr-[300px] ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`lg:pl-[300px] ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="fixed left-0 top-0 w-full h-screen infinite-bg z-[-1]"></div>
         <ToastContainer />
         <Providers>
           <Nav />
-          <div className="p-6 lg:p-12">{children}</div>
+          <div className="p-6">{children}</div>
         </Providers>
       </body>
     </html>

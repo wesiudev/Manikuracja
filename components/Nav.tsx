@@ -1,4 +1,5 @@
 "use client";
+import noResultsImage from "../public/no-results.png";
 import Link from "next/link";
 import logo from "../public/logo.png";
 import { FaChevronDown, FaHome, FaPlusCircle, FaTag } from "react-icons/fa";
@@ -16,7 +17,7 @@ import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import InitUser from "./User/Init";
 import { useRouter } from "next/navigation";
-import ProfileEdit from "./User/ProfileEdit";
+import ProfileConfig from "./User/ProfileConfig";
 import { initialState, setUser } from "@/redux/slices/user";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
@@ -31,14 +32,21 @@ export default function Nav() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function openModal(state: any, setter: any) {
-    if (user) {
+    if (user.uid !== "") {
       setter(!state);
     } else {
       setRegisterModalOpen(true);
     }
   }
   const navItems = [
-    { title: "Przegląd", action: () => router.push("/"), icon: <FaHome /> },
+    {
+      title: "Przegląd",
+      action: () => {
+        setExpandedItems([]);
+        router.push("/");
+      },
+      icon: <FaHome />,
+    },
     {
       title: "Profil",
       expandable: true,
@@ -85,7 +93,7 @@ export default function Nav() {
     <>
       <InitUser />
       {profileEditOpen && (
-        <ProfileEdit
+        <ProfileConfig
           profileEditOpen={profileEditOpen}
           setProfileEditOpen={setProfileEditOpen}
           user={user}
@@ -109,26 +117,35 @@ export default function Nav() {
       )}
       <div className="h-full">
         {isNavOpen && (
-          <div className="lg:hidden fixed left-0 top-0 w-full h-full bg-black/50 z-[10]"></div>
+          <div
+            onClick={() => setNavOpen(false)}
+            className="lg:hidden fixed left-0 top-0 w-full h-full bg-black/50 z-[10]"
+          ></div>
         )}
         <div
-          className={`z-[10] text-gray-800 bg-white pt-6 h-full fixed right-0 scrollbar ${
+          className={`z-[70] text-gray-800 bg-white pt-6 h-full fixed left-0 scrollbar ${
             isNavOpen
               ? "translate-x-[0] duration-300"
-              : "translate-x-[300px] lg:-translate-x-0 duration-300"
+              : "-translate-x-[300px] lg:-translate-x-0 duration-300"
           }`}
         >
           <button
             onClick={() => setNavOpen(!isNavOpen)}
-            className="lg:hidden absolute -left-[56px] w-[56px] h-[56px] bottom-12 bg-pink-400 rounded-l-lg duration-200 text-white flex items-center justify-center"
+            className="lg:hidden absolute -right-[56px] w-[56px] h-[56px] bottom-12 bg-pink-400 rounded-r-lg duration-200 text-white flex items-center justify-center"
           >
             <FaChevronLeft
               className={`lg:hidden text-xl ${
-                isNavOpen ? "rotate-180" : "rotate-0"
+                isNavOpen ? "rotate-0" : "rotate-180"
               }`}
             />
           </button>
           <div className="relative flex flex-col gap-12 h-full overflow-y-auto">
+            <Image
+              src={noResultsImage}
+              alt="Malowane Paznokcie"
+              className="absolute left-1/2 -translate-x-1/2 bottom-12 opacity-10 w-[145px] lg:w-[200px] select-none"
+              priority
+            />
             <div
               className={`relative flex flex-col justify-between h-full w-[300px] lg:rounded-lg`}
             >
@@ -161,6 +178,9 @@ export default function Nav() {
                               }
                             } else {
                               setNavOpen(!isNavOpen);
+                            }
+                            if (index === 0) {
+                              item.action!();
                             }
                           }}
                           className={`border-transparent ${

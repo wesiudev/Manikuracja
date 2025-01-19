@@ -555,6 +555,7 @@ export async function getIdea(userId, ideaId) {
     }
   }
 }
+
 export {
   addBooking,
   auth,

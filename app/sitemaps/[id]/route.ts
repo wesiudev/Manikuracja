@@ -13,27 +13,42 @@ async function fetchServicesAndCities() {
   return { services, cities };
 }
 
-// Function to generate links for a specific range
-function generateLinks(
+// Function to generate all links
+function generateAllLinks(
   services: IService[],
-  cities: string[],
+  cities: { id: string; name: string }[]
+) {
+  const date = new Date().toISOString();
+  const links: { url: string; lastModified: string }[] = [];
+
+  // Generate service-city links
+  services.forEach((service) => {
+    cities.forEach((city) => {
+      links.push({
+        url: `${BASE_URL}/${service.flatten_name}/${city.id}`,
+        lastModified: date,
+      });
+    });
+  });
+
+  // Generate /paznokcie/{city.id} links
+  cities.forEach((city) => {
+    links.push({
+      url: `${BASE_URL}/paznokcie/${city.id}`,
+      lastModified: date,
+    });
+  });
+
+  return links;
+}
+
+// Function to get links for a specific range
+function getLinksForSitemap(
+  links: { url: string; lastModified: string }[],
   start: number,
   end: number
 ) {
-  const links: { url: string; lastModified: string }[] = [];
-  const date = new Date().toISOString();
-
-  for (let i = start; i < end && i < services.length * cities.length; i++) {
-    const serviceIndex = Math.floor(i / cities.length);
-    const cityIndex = i % cities.length;
-
-    links.push({
-      url: `${BASE_URL}/${services[serviceIndex].flatten_name}/${cities[cityIndex]}`,
-      lastModified: date,
-    });
-  }
-
-  return links;
+  return links.slice(start, end);
 }
 
 export async function GET(
@@ -49,7 +64,10 @@ export async function GET(
 
   const { services, cities } = await fetchServicesAndCities();
 
-  const totalLinks = services.length * cities.length;
+  // Generate all links
+  const allLinks = generateAllLinks(services, cities);
+
+  const totalLinks = allLinks.length;
   const start = sitemapId * LINKS_PER_SITEMAP;
   const end = Math.min(start + LINKS_PER_SITEMAP, totalLinks);
 
@@ -57,7 +75,8 @@ export async function GET(
     return NextResponse.json({ error: "Sitemap not found" }, { status: 404 });
   }
 
-  const links = generateLinks(services, cities, start, end);
+  // Get links for the current sitemap
+  const links = getLinksForSitemap(allLinks, start, end);
 
   const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

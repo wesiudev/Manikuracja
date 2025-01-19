@@ -8,8 +8,17 @@ export type User = {
   email: string;
   photoURL: string;
   city: string;
+  description: string;
+  logo: string;
   seek: boolean;
   emailVerified: boolean;
+  configured: boolean;
   profileComments: string[];
-  services: string[];
+  services: IService[];
+  location: { lng: number; lat: number; address: string };
 };
+
+export interface ICity {
+  id: string;
+  name: string;
+}

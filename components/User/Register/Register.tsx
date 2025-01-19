@@ -116,7 +116,7 @@ export default function Register({
       onClick={() => {
         setRegisterModalOpen(false);
       }}
-      className={`bg-black/50 z-[50] fixed left-0 top-0 w-screen h-full overflow-y-scroll p-6 lg:p-12 xl:p-40 2xl:p-64 !py-6 lg:!py-12 xl:!py-24  ${
+      className={`bg-black/50 z-[100] fixed left-0 top-0 w-screen h-full overflow-y-scroll p-6 lg:p-12 xl:p-40 2xl:p-64 !py-6 lg:!py-12 xl:!py-24  ${
         registerModalOpen ? "block" : "hidden"
       }`}
     >
