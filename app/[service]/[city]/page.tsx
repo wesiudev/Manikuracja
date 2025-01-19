@@ -20,7 +20,8 @@ export default async function ServiceCitySlug({
 }) {
   const { service, city } = await params;
   const serviceData = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/service/${service}`
+    `${process.env.NEXT_PUBLIC_URL}/service/${service}`,
+    { next: { revalidate: 3600 } }
   );
   const cityData = await getSingleCity(city);
   const s: IService = await serviceData.json();
