@@ -9,7 +9,7 @@ export default function ServicesArray({
   services: IService[];
 }) {
   return (
-    <div className="mt-3 mx-auto bg-gray-200 rounded-lg overflow-hidden">
+    <div className="mt-3 mx-auto bg-white rounded-lg overflow-hidden">
       <div className="overflow-x-scroll flex items-center px-4 py-3 gap-3">
         {services.map((serviceItem: IService, i: number) => (
           <div

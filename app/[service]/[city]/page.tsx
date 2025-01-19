@@ -35,7 +35,7 @@ export default async function ServiceCitySlug({
         <SearchBar service={s} slugCity={cityData.name} />
         <ServicesArray services={services} city={cityData} />
       </div>
-      <div className="p-6 w-full bg-gray-200 rounded-lg mt-3 h-full flex-grow">
+      <div className="p-6 w-full bg-white rounded-lg mt-3 h-full flex-grow">
         <div className="">
           <h2 className="text-xl font-bold text-zinc-800 drop-shadow-sm shadow-black">
             Wyniki wyszukiwania dla{" "}
