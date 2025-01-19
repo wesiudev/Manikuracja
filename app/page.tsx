@@ -5,7 +5,7 @@ export default async function Home() {
     <div>
       {/* Search Section */}
 
-      <SearchBar slugCity="" results={[]} />
+      <SearchBar slugCity="" />
 
       {/* Highlights Section */}
       <div>
