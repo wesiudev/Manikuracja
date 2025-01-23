@@ -2,7 +2,7 @@
 import googleLogo from "../../public/googleLogo.webp";
 import React from "react";
 import { createUser, provider } from "@/firebase";
-import { signInWithPopup, getAuth, UserCredential } from "firebase/auth";
+import { getAuth, UserCredential, signInWithRedirect } from "firebase/auth";
 import { errorCatcher } from "@/utils/errorCatcher";
 import { setRegisterOpen } from "@/redux/slices/cta";
 import { useDispatch } from "react-redux";
@@ -24,7 +24,7 @@ export default function GoogleAuthButton({
   async function googleHandler() {
     const auth = getAuth();
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithRedirect(auth, provider);
       const { user }: UserCredential = await result;
       const existingUser = await fetchUser(user?.uid);
       if (!existingUser) {
