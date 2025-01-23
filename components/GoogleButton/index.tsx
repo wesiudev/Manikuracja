@@ -77,7 +77,7 @@ export default function GoogleAuthButton({
             alt="Google Logo"
             className="w-7 h-7"
           />
-          <span className="ml-4">Zaloguj z Google</span>
+          <span className="ml-4 block">Zaloguj z Google</span>
         </div>
       </button>
     </div>
