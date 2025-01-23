@@ -10,6 +10,7 @@ export const initialState = {
     description: "",
     logo: "",
 
+    portfolioImages: [],
     seek: false,
     emailVerified: false,
     configured: false,
