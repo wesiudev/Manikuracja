@@ -30,9 +30,10 @@ export default function PricingButton({
       {user?.uid ? (
         <button
           onClick={handleSubscribe}
-          className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-300"
+          disabled={user?.active}
+          className={`disabled:cursor-not-allowed mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-300 disabled:bg-gray-200 disabled:text-gray-400`}
         >
-          Wykup subskrypcję
+          {user?.active ? "Subskrybcja aktywna" : "Wykup subskrypcję"}
         </button>
       ) : (
         <button

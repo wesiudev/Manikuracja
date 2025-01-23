@@ -5,6 +5,7 @@ import { updateUser } from "@/firebase";
 import PaymentSettings from "./PaymentSettings";
 import DisplaySettings from "./DisplaySettings";
 import { toast } from "react-toastify";
+import PortfolioSettings from "./PortfolioSettings";
 export default function ProfileEdit({
   user,
   setProfileEditOpen,
@@ -64,6 +65,17 @@ export default function ProfileEdit({
             </span>
           </div>
         )}
+        {currentTab === "portfolio" && (
+          <div>
+            <h3 className="text-2xl sm:text-3xl font-bold text-center">
+              Portfolio
+            </h3>
+            <span className="text-sm text-gray-600 mt-1.5 block text-center">
+              Skonfiguruj zdjęcia wraz z opisami, aby zapewnić klientom wgląd do
+              Twoich stylizacji
+            </span>
+          </div>
+        )}
         <div className="mt-4 flex items-center justify-center flex-wrap gap-3">
           <button
             onClick={() => setCurrentTab("main")}
@@ -95,7 +107,18 @@ export default function ProfileEdit({
           >
             Wyświetlanie
           </button>
+          <button
+            onClick={() => setCurrentTab("portfolio")}
+            className={`${
+              currentTab === "portfolio"
+                ? "border-gray-500 bg-gray-300"
+                : "border-gray-200 bg-gray-200"
+            } border-2 px-3 py-1.5 text-black font-light rounded-md`}
+          >
+            Portfolio
+          </button>
           {currentTab === "main" && <MainSettings user={user} />}
+          {currentTab === "portfolio" && <PortfolioSettings user={user} />}
           {currentTab === "payments" && (
             <PaymentSettings
               user={user}
@@ -103,13 +126,14 @@ export default function ProfileEdit({
               setPricingOpen={setPricingOpen}
             />
           )}
-          {currentTab === "display" && (
+          <div className={`${currentTab === "display" ? "block" : "hidden"}`}>
             <DisplaySettings
               setServicesOpen={setServicesOpen}
               setProfileEditOpen={setProfileEditOpen}
               user={user}
             />
-          )}
+          </div>
+
           <div
             style={{ boxShadow: "0px 0px 3px black" }}
             className="fixed bottom-0 w-max left-1/2 -translate-x-1/2 bg-white flex items-center justify-center gap-3 py-2 px-4 rounded-t-lg"

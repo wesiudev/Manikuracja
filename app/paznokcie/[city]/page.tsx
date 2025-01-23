@@ -28,7 +28,13 @@ export default async function ServiceCitySlug({
   if (city.error) {
     return <NotFound />;
   }
-  const results: string[] = [];
+  const results = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/results/${city.id}`,
+    {
+      method: "POST",
+    }
+  ).then((res) => res.json());
+  console.log(results);
   return (
     <div className="min-h-screen flex flex-col">
       <div>

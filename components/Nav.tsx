@@ -2,7 +2,7 @@
 import loginImage from "../public/loginImage.png";
 import Link from "next/link";
 import logo from "../public/logo.png";
-import { FaChevronDown, FaCog, FaHome, FaTag } from "react-icons/fa";
+import { FaBook, FaChevronDown, FaCog, FaHome, FaTag } from "react-icons/fa";
 import { useState } from "react";
 import {
   FaChevronLeft,
@@ -84,6 +84,14 @@ export default function Nav() {
           icon: <FaTag />,
         },
       ],
+    },
+    {
+      title: "Blog",
+      action: () => {
+        setExpandedItems([]);
+        router.push("/blog");
+      },
+      icon: <FaBook />,
     },
   ];
   const dispatch = useDispatch();

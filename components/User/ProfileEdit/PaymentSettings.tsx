@@ -12,17 +12,21 @@ export default function PaymentSettings({
   setPricingOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <div className="h-[50vh] w-full flex justify-center items-center bg-gray-200 rounded-md">
+    <div
+      className={`${
+        user?.payments?.length > 0 ? "" : "h-[50vh]"
+      } w-full flex justify-center items-center bg-gray-200 rounded-md`}
+    >
       {user?.payments?.length > 0 ? (
-        <div className="space-y-4">
+        <div className="space-y-4 w-full p-6">
           {user.payments.map((payment: Payment, index: number) => (
             <div
               key={index}
-              className="flex justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm"
+              className="w-full flex justify-between items-start p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm"
             >
               <div>
                 <p className="text-lg font-medium text-gray-800">
-                  Suma: {payment.amount}zł
+                  Suma: {payment.amount / 100}zł
                 </p>
                 <p className="text-sm text-gray-600">
                   Data: {new Date(payment.date).toLocaleDateString()}

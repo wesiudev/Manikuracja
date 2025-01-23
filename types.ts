@@ -11,6 +11,10 @@ export interface Payment {
   date: string;
   result: string;
 }
+export type PortfolioImage = {
+  src: string;
+  text: string;
+};
 export type User = {
   uid: string;
   name: string;
@@ -24,6 +28,7 @@ export type User = {
   active: boolean;
   profileComments: string[];
 
+  portfolioImages: PortfolioImage[];
   payments: Payment[];
   services: IService[];
   location: { lng: number; lat: number; address: string };
@@ -39,6 +44,7 @@ export type PostSample = {
   id: string;
   type: string;
   title: string;
+  shortDesc: string;
   tags: string;
   image: string;
   text1Title: string;

@@ -8,6 +8,7 @@ export async function GET() {
     id: post.data.id,
     type: post.data.type,
     title: post.data.title,
+    shortDesc: post.data.shortDesc,
     tags: post.data.tags,
     image: post.data.images[0].src,
     text1Title: post.data.text1Title,
