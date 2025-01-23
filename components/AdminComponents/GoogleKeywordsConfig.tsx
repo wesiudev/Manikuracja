@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaInfoCircle } from "react-icons/fa";
 
 export default function GoogleKeywordsConfig({
@@ -5,7 +6,7 @@ export default function GoogleKeywordsConfig({
   handleChange,
 }: {
   product: any;
-  handleChange: Function;
+  handleChange: any;
 }) {
   return (
     <div className="my-3">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaSignOutAlt } from "react-icons/fa";
 
 export default function Input({
@@ -13,7 +14,7 @@ export default function Input({
   handleChange: any;
   type: string;
   label: string;
-  closeInput: Function;
+  closeInput: any;
 }) {
   return (
     <>

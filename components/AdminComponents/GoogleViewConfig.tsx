@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -7,7 +8,7 @@ export default function GoogleViewConfig({
   error,
 }: {
   product: any;
-  handleChange: Function;
+  handleChange: any;
   error: boolean;
 }) {
   const [activeProperty, setActiveProperty] = useState("");

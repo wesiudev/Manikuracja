@@ -1,4 +1,4 @@
-import Link from "next/link";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export default function UrlConfig({
   product,
