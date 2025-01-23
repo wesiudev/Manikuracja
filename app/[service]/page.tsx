@@ -6,7 +6,7 @@ import { getSingleService } from "@/utils/getSingleService";
 import Results from "@/components/SearchBar/Results";
 import Image from "next/image";
 import CtaRegisterButton from "@/components/Cta";
-import PostSamples from "@/components/PostSamples";
+// import PostSamples from "@/components/PostSamples";
 
 export async function generateStaticParams() {
   const services = await fetch(`${process.env.NEXT_PUBLIC_URL}/services`, {
@@ -67,7 +67,7 @@ export default async function ServiceSlug({
           tam także wiedzę o zdrowiu, stylu i nowości ze świata paznokci.
           Zapraszamy do zapoznania się z naszymi wpisami!
         </p>
-        <PostSamples />
+        {/* <PostSamples /> */}
       </div>
     </div>
   );

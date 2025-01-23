@@ -25,6 +25,5 @@ export async function GET() {
     text7Title: post.data.text7Title,
     text7Desc: post.data.text7Desc,
   }));
-
   return NextResponse.json(postSamples);
 }
