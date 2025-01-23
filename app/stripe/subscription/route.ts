@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       customer_email: email, // Pre-fill email for the user
       line_items: [
         {
-          price: "price_1QkDXxB1ANRdJriT1iYb9RL4", // Replace with your Stripe price ID
+          price: "price_1QimeQB1ANRdJriTgSfjHzje", // Replace with your Stripe price ID
           quantity: 1,
         },
       ],
