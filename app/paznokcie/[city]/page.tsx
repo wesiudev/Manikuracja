@@ -1,7 +1,7 @@
 import noResults from "../../../public/no-results.png";
 import NotFound from "@/app/not-found";
 import CtaRegisterButton from "@/components/Cta";
-// import PostSamples from "@/components/PostSamples";
+import PostSamples from "@/components/PostSamples";
 import SearchBar from "@/components/SearchBar";
 import Results from "@/components/SearchBar/Results";
 import ServicesArray from "@/components/SearchBar/ServicesArray";
@@ -67,7 +67,7 @@ export default async function ServiceCitySlug({
           i nowościach ze świata paznokci. Zapraszamy do zapoznania się z naszym
           blogiem!
         </p>
-        {/* <PostSamples /> */}
+        <PostSamples />
       </div>
     </div>
   );

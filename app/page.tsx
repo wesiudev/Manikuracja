@@ -1,5 +1,5 @@
 import CtaRegisterButton from "@/components/Cta";
-// import PostSamples from "@/components/PostSamples";
+import PostSamples from "@/components/PostSamples";
 import SearchBar from "@/components/SearchBar";
 import feature1 from "@/public/home/feature1.jpg";
 import feature2 from "@/public/home/feature2.jpg";
@@ -140,7 +140,7 @@ export default async function Home() {
             Znajdziesz tam wiedzę o zdrowiu, stylu i nowości ze świata paznokci.
             Zapraszamy do zapoznania się z naszym blogiem!
           </p>
-          {/* <PostSamples /> */}
+          <PostSamples />
         </div>
       </div>
     </div>
