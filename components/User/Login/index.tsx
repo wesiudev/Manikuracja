@@ -15,11 +15,13 @@ export default function Login({
   setLoginModalOpen,
   setRegisterModalOpen,
   setNavOpen,
+  setProfileConfigOpen,
 }: {
   loginModalOpen: boolean;
   setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setProfileConfigOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [user, loading] = useAuthState(auth);
   const [isThinking, setThinking] = useState(false);
@@ -49,6 +51,7 @@ export default function Login({
           });
           setThinking(false);
           setNavOpen(true);
+          setProfileConfigOpen(true);
           setLoginModalOpen(false);
         });
       } catch (err) {
@@ -60,7 +63,6 @@ export default function Login({
           autoClose: 3000,
         });
         setThinking(false);
-        setNavOpen(true);
       }
     })();
   }
@@ -104,7 +106,6 @@ export default function Login({
             <input
               required
               type="email"
-              id="email"
               placeholder="Wpisz email"
               value={userData.email}
               onChange={(e) =>
@@ -125,7 +126,6 @@ export default function Login({
               required
               type="password"
               placeholder="Wpisz hasło"
-              id="password"
               value={userData.password}
               onChange={(e) =>
                 setUserData({ ...userData, password: e.target.value })
@@ -156,6 +156,7 @@ export default function Login({
             setNavOpen={setNavOpen}
             setRegisterModalOpen={setRegisterModalOpen}
             setLoginModalOpen={setLoginModalOpen}
+            setProfileConfigOpen={setProfileConfigOpen}
           />
           <div className="text-center text-black font-light text-lg">
             Nie posiadasz jeszcze konta?{" "}

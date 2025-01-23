@@ -75,7 +75,7 @@ export default function AccountPresence({
         className={`h-[120px] w-full border-gray-300 border rounded-md p-2 mt-2`}
         placeholder="Uzupełnij pole"
       />
-      <div className="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center w-full mt-3">
         <button
           onClick={() => {
             setStep(1);
@@ -88,7 +88,7 @@ export default function AccountPresence({
           onClick={() => {
             setStep(3);
           }}
-          className="w-max mx-auto mt-4 px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
+          className="w-max mx-auto px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
         >
           Dalej (4/4)
         </button>

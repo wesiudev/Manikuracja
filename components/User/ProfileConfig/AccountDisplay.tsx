@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getServices } from "@/utils/getServices";
 import { setUser } from "@/redux/slices/user";
 import { useDispatch } from "react-redux";
+import { updateUser } from "@/firebase";
 
 export default function AccountDisplay({
   user,
@@ -63,33 +64,41 @@ export default function AccountDisplay({
       </button>
       {pedicureOpen && (
         <div className="mt-2 p-3 flex flex-col gap-2 max-h-[200px] overflow-y-auto bg-gray-50 rounded-md border border-gray-200">
-          {services.pedicure.map((item) => (
-            <button
-              key={item.flatten_name}
-              onClick={() =>
-                dispatch(
-                  setUser({
-                    ...user,
-                    services: user.services.some(
-                      (s) => s.flatten_name === item.flatten_name
-                    )
-                      ? user.services.filter(
-                          (service) =>
-                            service.flatten_name !== item.flatten_name
-                        )
-                      : [...user.services, item],
-                  })
-                )
-              }
-              className={`${
-                user.services.some((s) => s.flatten_name === item.flatten_name)
-                  ? "bg-green-200 hover:bg-green-100"
-                  : "bg-white hover:bg-gray-100"
-              } text-sm p-2 rounded-md border border-gray-300 text-zinc-800`}
-            >
-              {item.real_name}
-            </button>
-          ))}
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            services?.pedicure?.map((item) => (
+              <button
+                key={item.flatten_name}
+                onClick={() =>
+                  dispatch(
+                    setUser({
+                      ...user,
+                      services: user.services.some(
+                        (s) => s.flatten_name === item.flatten_name
+                      )
+                        ? user.services.filter(
+                            (service) =>
+                              service.flatten_name !== item.flatten_name
+                          )
+                        : [...user.services, item],
+                    })
+                  )
+                }
+                className={`${
+                  user.services.some(
+                    (s) => s.flatten_name === item.flatten_name
+                  )
+                    ? "bg-green-500 text-white font-bold"
+                    : "bg-white hover:bg-gray-100 text-zinc-800"
+                } text-sm p-2 rounded-md border border-gray-300`}
+              >
+                {item.real_name}
+              </button>
+            ))
+          )}
         </div>
       )}
 
@@ -106,38 +115,46 @@ export default function AccountDisplay({
       </button>
       {manicureOpen && (
         <div className="mt-2 p-3 flex flex-col gap-2 max-h-[200px] overflow-y-auto bg-gray-50 rounded-md border border-gray-200">
-          {services.manicure.map((item) => (
-            <button
-              key={item.flatten_name}
-              onClick={() =>
-                dispatch(
-                  setUser({
-                    ...user,
-                    services: user.services.some(
-                      (s) => s.flatten_name === item.flatten_name
-                    )
-                      ? user.services.filter(
-                          (service) =>
-                            service.flatten_name !== item.flatten_name
-                        )
-                      : [...user.services, item],
-                  })
-                )
-              }
-              className={`${
-                user.services.some((s) => s.flatten_name === item.flatten_name)
-                  ? "bg-green-200 hover:bg-green-100"
-                  : "bg-white hover:bg-gray-100"
-              } text-sm p-2 rounded-md border border-gray-300 text-zinc-800`}
-            >
-              {item.real_name}
-            </button>
-          ))}
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            services?.manicure?.map((item) => (
+              <button
+                key={item.flatten_name}
+                onClick={() =>
+                  dispatch(
+                    setUser({
+                      ...user,
+                      services: user.services.some(
+                        (s) => s.flatten_name === item.flatten_name
+                      )
+                        ? user.services.filter(
+                            (service) =>
+                              service.flatten_name !== item.flatten_name
+                          )
+                        : [...user.services, item],
+                    })
+                  )
+                }
+                className={`${
+                  user.services.some(
+                    (s) => s.flatten_name === item.flatten_name
+                  )
+                    ? "bg-green-500 text-white font-bold"
+                    : "bg-white hover:bg-gray-100 text-zinc-800"
+                } text-sm p-2 rounded-md border border-gray-300`}
+              >
+                {item.real_name}
+              </button>
+            ))
+          )}
         </div>
       )}
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex justify-between items-center mt-3">
         <button
           onClick={() => setStep(2)}
           className="px-6 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 mx-auto"
@@ -145,7 +162,10 @@ export default function AccountDisplay({
           Powrót
         </button>
         <button
-          onClick={() => console.log("ok")}
+          onClick={() => {
+            updateUser(user.uid, { ...user, configured: true });
+            dispatch(setUser({ ...user, configured: true }));
+          }}
           className="mx-auto px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
         >
           Zapisz zmiany

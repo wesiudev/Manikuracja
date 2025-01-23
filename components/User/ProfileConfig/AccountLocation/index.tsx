@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import Help from "../Help";
 import { MapInput } from "./MapInput";
 import { useMemo } from "react";
-import { useLoadScript } from "@react-google-maps/api";
 import { toast } from "react-toastify";
-const libraries: "places"[] = ["places"]; // Required for Places API
+import { useMapConsts } from "@/utils/useMapConsts";
 export default function AccountLocation({
   setStep,
   user,
@@ -19,10 +18,7 @@ export default function AccountLocation({
   function handleState(key: string, value: string) {
     dispatch(setUser({ ...user, [key]: value }));
   }
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
-    libraries,
-  });
+  const { isLoaded, loadError } = useMapConsts();
   return (
     <div className="flex flex-col">
       <label className="font-semibold text-lg">Nazwa</label>
@@ -34,10 +30,21 @@ export default function AccountLocation({
           handleState("name", e.target.value);
         }}
         className={`border-gray-300 border rounded-md p-2 mt-1`}
-        placeholder="Uzupełnij pole"
+        placeholder="Jan Kowalski sp. z o.o."
       />
-      <label className="font-semibold text-lg mt-3">Miejsce</label>
-      <Help text="Wskaż miejsce na mapie, aby klienci mogli Cię łatwiej znaleźć!" />
+      <label className="font-semibold text-lg mt-3">Numer telefonu</label>
+      <Help text="Wpisz numer telefonu, który wyświetli się w Twoim profilu." />
+      <input
+        type="text"
+        value={user?.phoneNumber}
+        onChange={(e) => {
+          handleState("phoneNumber", e.target.value);
+        }}
+        className={`border-gray-300 border rounded-md p-2 mt-1`}
+        placeholder="+48 123 456 789"
+      />
+      <label className="font-semibold text-lg mt-3">Lokalizacja</label>
+      <Help text="Wskaż miejsce na mapie, aby klienci mogli Cię łatwiej znaleźć! Możesz wybrać dokładną lokalizację, lub wskazać miasto, w którym oferujesz usługi." />
       <MapInput user={memoizedUser} isLoaded={isLoaded} loadError={loadError} />
       <div className="flex items-center justify-center w-full">
         <button
@@ -60,7 +67,7 @@ export default function AccountLocation({
               setStep(2);
             }
           }}
-          className="w-max mx-auto mt-4 px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
+          className="w-max mx-auto px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
         >
           Dalej (3/4)
         </button>

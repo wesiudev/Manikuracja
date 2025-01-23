@@ -7,17 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function ChooseAccountType({
   setStep,
-  setProfileEditOpen,
+  setProfileConfigOpen,
 }: {
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  setProfileEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setProfileConfigOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
-  const { seek } = user;
+  const seek = user?.seek;
   return (
     <div className="flex flex-col justify-center items-center h-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4 p-[1rem]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-[1rem]">
         <button
           onClick={() => {
             dispatch(setUser({ ...user, seek: false }));
@@ -83,7 +83,7 @@ export default function ChooseAccountType({
       </div>
       <div className="flex items-center justify-center w-full">
         <button
-          onClick={() => setProfileEditOpen(false)}
+          onClick={() => setProfileConfigOpen(false)}
           className="px-6 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 mx-auto"
         >
           Wyjście
@@ -92,7 +92,7 @@ export default function ChooseAccountType({
           onClick={() => {
             setStep(1);
           }}
-          className="w-max mx-auto mt-4 px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
+          className="w-max mx-auto px-[1.5rem] py-[0.6rem] bg-green-500 text-white rounded-md"
         >
           Dalej (2/4)
         </button>

@@ -8,16 +8,19 @@ import { setUser } from "@/redux/slices/user";
 import { useDispatch } from "react-redux";
 import { errorCatcher } from "@/utils/errorCatcher";
 import CreateAccountForm from "./CreateAccountForm";
+import { setRegisterOpen } from "@/redux/slices/cta";
 export default function Register({
   registerModalOpen,
   setRegisterModalOpen,
   setLoginModalOpen,
   setNavOpen,
+  setProfileConfigOpen,
 }: {
   registerModalOpen: boolean;
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setProfileConfigOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [user, loading] = useAuthState(auth);
   const [userData, setUserData] = useState({
@@ -25,7 +28,7 @@ export default function Register({
     repeatPassword: "",
     email: "",
   });
-
+  const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   function createAccount() {
     setLoading(true);
@@ -74,12 +77,18 @@ export default function Register({
             uid: userCredential.user?.uid,
             name: "",
             email: userData?.email,
-            photoURL: "",
-            city: "",
+            description: "",
+            logo: "",
+
+            seek: false,
             emailVerified: false,
+            configured: false,
+            active: false,
             profileComments: [],
+
             services: [],
-            leads: [],
+            location: { lng: 21.0122287, lat: 52.2296756, address: "" },
+            phoneNumber: "",
           });
           toast.update(id, {
             render: "Konto utworzone pomyślnie!",
@@ -89,7 +98,9 @@ export default function Register({
           });
           setLoading(false);
           setRegisterModalOpen(false);
+          dispatch(setRegisterOpen(false));
           setNavOpen(true);
+          setProfileConfigOpen(true);
         });
       } catch (err) {
         const errorMsg = errorCatcher(err);
@@ -103,7 +114,6 @@ export default function Register({
       }
     })();
   }
-  const dispatch = useDispatch();
   useEffect(() => {
     if (user && !loading) {
       getDocument("users", user?.uid).then((data) => {
@@ -115,6 +125,7 @@ export default function Register({
     <div
       onClick={() => {
         setRegisterModalOpen(false);
+        dispatch(setRegisterOpen(false));
       }}
       className={`bg-black/50 z-[100] fixed left-0 top-0 w-screen h-full overflow-y-scroll p-6 lg:p-12 xl:p-40 2xl:p-64 !py-6 lg:!py-12 xl:!py-24  ${
         registerModalOpen ? "block" : "hidden"
@@ -139,6 +150,7 @@ export default function Register({
           setNavOpen={setNavOpen}
           setRegisterModalOpen={setRegisterModalOpen}
           setLoginModalOpen={setLoginModalOpen}
+          setProfileConfigOpen={setProfileConfigOpen}
         />
         <div className="text-center justify-center mt-3 flex flex-row flex-wrap text-black font-light text-lg">
           Posiadasz już konto?{" "}
@@ -146,6 +158,7 @@ export default function Register({
             className="ml-2 text-[#126b91] hover:underline"
             onClick={() => {
               setRegisterModalOpen(false);
+              dispatch(setRegisterOpen(false));
               setLoginModalOpen(true);
             }}
           >

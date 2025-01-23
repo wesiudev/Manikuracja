@@ -10,13 +10,11 @@ export default function InitUser() {
   const [user, loading] = useAuthState(auth);
   const dispatch = useDispatch();
   useEffect(() => {
-    const fetchAndSetUser = async () => {
-      if (user) {
-        const res = await fetchUser(user.uid);
+    if (user) {
+      fetchUser(user?.uid).then((res) => {
         dispatch(setUser(res));
-      }
-    };
-    fetchAndSetUser();
+      });
+    }
   }, [user, loading]);
 
   return <div></div>;

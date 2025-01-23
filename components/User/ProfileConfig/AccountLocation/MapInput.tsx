@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, memo, useEffect } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { GoogleMap, Marker, Autocomplete } from "@react-google-maps/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/user";
@@ -22,7 +22,7 @@ type Location = {
   lng: number;
 };
 
-export const MapInput = memo(function MapInput({
+export const MapInput = ({
   user,
   loadError,
   isLoaded,
@@ -31,7 +31,7 @@ export const MapInput = memo(function MapInput({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   loadError: any;
   isLoaded: boolean;
-}) {
+}) => {
   const dispatch = useDispatch();
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -136,8 +136,7 @@ export const MapInput = memo(function MapInput({
           />
         </Autocomplete>
       </div>
-      <div className="overflow-hidden relative rounded-lg">
-        <div className="absolute bottom-0 left-0 h-[22px] bg-gray-200 w-full z-50"></div>
+      <div className="relative rounded-lg overflow-hidden border border-gray-300">
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={12}
@@ -154,4 +153,4 @@ export const MapInput = memo(function MapInput({
       </div>
     </div>
   );
-});
+};

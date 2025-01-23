@@ -1,14 +1,14 @@
 "use client";
-import noResultsImage from "../public/no-results.png";
+import loginImage from "../public/loginImage.png";
 import Link from "next/link";
 import logo from "../public/logo.png";
-import { FaChevronDown, FaHome, FaPlusCircle, FaTag } from "react-icons/fa";
+import { FaChevronDown, FaCog, FaHome, FaTag } from "react-icons/fa";
 import { useState } from "react";
 import {
-  FaBriefcase,
   FaChevronLeft,
-  FaList,
+  FaDollarSign,
   FaPowerOff,
+  FaUser,
 } from "react-icons/fa6";
 import Image from "next/image";
 import Login from "./User/Login";
@@ -21,23 +21,21 @@ import ProfileConfig from "./User/ProfileConfig";
 import { initialState, setUser } from "@/redux/slices/user";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
+import Pricing from "./User/Payments/Pricing";
+import ProfileEdit from "./User/ProfileEdit";
+import Services from "./User/Services";
 export default function Nav() {
   const { user } = useSelector((state: RootState) => state.user);
   const [expandedItems, setExpandedItems] = useState([]);
   const [isNavOpen, setNavOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [registerModalOpen, setRegisterModalOpen] = useState<boolean>(false);
+  const [profileConfigOpen, setProfileConfigOpen] = useState<boolean>(false);
   const [profileEditOpen, setProfileEditOpen] = useState<boolean>(false);
   const router = useRouter();
+  const [pricingOpen, setPricingOpen] = useState<boolean>(false);
+  const [servicesOpen, setServicesOpen] = useState<boolean>(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function openModal(state: any, setter: any) {
-    if (user.uid !== "") {
-      setter(!state);
-    } else {
-      setRegisterModalOpen(true);
-    }
-  }
   const navItems = [
     {
       title: "Przegląd",
@@ -48,38 +46,42 @@ export default function Nav() {
       icon: <FaHome />,
     },
     {
-      title: "Profil",
+      title: user?.uid !== "" ? "Mój profil" : "Dla specjalistów",
       expandable: true,
-      icon: <FaBriefcase />,
+      icon: <FaUser />,
       subItems: [
         {
-          title: "Edytuj profil",
+          title: "Ustawienia",
           action: () => {
-            openModal(profileEditOpen, setProfileEditOpen);
+            if (user?.uid === "") {
+              setRegisterModalOpen(true);
+            } else if (user?.uid !== "" && !user?.configured) {
+              setProfileConfigOpen(true);
+            } else if (user?.uid !== "" && user?.configured) {
+              setProfileEditOpen(!profileEditOpen);
+            }
           },
-          icon: <FaPlusCircle />,
+          icon: <FaCog />,
         },
         {
-          title: "Moje ogłoszenia",
-          action: () => console.log("ok"),
-          icon: <FaList />,
-        },
-      ],
-    },
-    {
-      expandable: true,
-      title: "Usługi",
-      icon: <FaTag />,
-      subItems: [
-        {
-          title: "Dodaj usługę",
-          action: () => console.log("ok"),
-          icon: <FaPlusCircle />,
+          title: "Premium",
+          action: () => {
+            setPricingOpen(!pricingOpen);
+          },
+          icon: <FaDollarSign />,
         },
         {
-          title: "Moje usługi",
-          action: () => console.log("ok"),
-          icon: <FaList />,
+          title: "Usługi",
+          action: () => {
+            if (user?.uid === "") {
+              setRegisterModalOpen(true);
+            } else if (user?.uid !== "" && !user?.configured) {
+              setProfileConfigOpen(true);
+            } else if (user?.uid !== "" && user?.configured) {
+              setServicesOpen(!servicesOpen);
+            }
+          },
+          icon: <FaTag />,
         },
       ],
     },
@@ -89,32 +91,51 @@ export default function Nav() {
     dispatch(setUser(initialState.user));
     signOut(auth);
   }
+  const { register } = useSelector((state: RootState) => state.cta);
   return (
     <>
       <InitUser />
-      {profileEditOpen && (
+      {profileConfigOpen && user?.uid !== "" && (
         <ProfileConfig
-          profileEditOpen={profileEditOpen}
-          setProfileEditOpen={setProfileEditOpen}
+          profileConfigOpen={profileConfigOpen}
+          setProfileConfigOpen={setProfileConfigOpen}
           user={user}
         />
       )}
-      {loginModalOpen && (
-        <Login
-          loginModalOpen={loginModalOpen}
-          setRegisterModalOpen={setRegisterModalOpen}
-          setLoginModalOpen={setLoginModalOpen}
-          setNavOpen={setNavOpen}
+      {profileEditOpen && user?.uid !== "" && user?.configured && (
+        <ProfileEdit
+          profileEditOpen={profileEditOpen}
+          setProfileEditOpen={setProfileEditOpen}
+          setPricingOpen={setPricingOpen}
+          setServicesOpen={setServicesOpen}
+          user={user}
         />
       )}
-      {registerModalOpen && (
-        <Register
-          registerModalOpen={registerModalOpen}
-          setRegisterModalOpen={setRegisterModalOpen}
-          setLoginModalOpen={setLoginModalOpen}
-          setNavOpen={setNavOpen}
-        />
-      )}
+      <Login
+        loginModalOpen={loginModalOpen}
+        setRegisterModalOpen={setRegisterModalOpen}
+        setLoginModalOpen={setLoginModalOpen}
+        setNavOpen={setNavOpen}
+        setProfileConfigOpen={setProfileConfigOpen}
+      />
+      <Register
+        registerModalOpen={registerModalOpen || register}
+        setRegisterModalOpen={setRegisterModalOpen}
+        setLoginModalOpen={setLoginModalOpen}
+        setNavOpen={setNavOpen}
+        setProfileConfigOpen={setProfileConfigOpen}
+      />
+      <Pricing
+        user={user}
+        setPricingOpen={setPricingOpen}
+        pricingOpen={pricingOpen}
+      />
+      <Services
+        user={user}
+        setServicesOpen={setServicesOpen}
+        servicesOpen={servicesOpen}
+        setProfileEditOpen={setProfileEditOpen}
+      />
       <div className="h-full">
         {isNavOpen && (
           <div
@@ -141,9 +162,9 @@ export default function Nav() {
           </button>
           <div className="relative flex flex-col gap-12 h-full overflow-y-auto">
             <Image
-              src={noResultsImage}
-              alt="Malowane Paznokcie"
-              className="absolute left-1/2 -translate-x-1/2 bottom-12 opacity-10 w-[145px] lg:w-[200px] select-none"
+              src={loginImage}
+              alt="Manicure Login/Register"
+              className="absolute left-1/2 -translate-x-1/2 bottom-12 opacity-20 w-[145px] lg:w-[200px] select-none mb-2"
               priority
             />
             <div
@@ -250,26 +271,26 @@ export default function Nav() {
                   </div>
                 </div>
               </div>
-              {user.uid !== "" && (
+              {user?.uid !== "" && (
                 <button
                   onClick={() => {
                     logout();
                     setNavOpen(!isNavOpen);
                   }}
-                  className={`mt-2 hover:bg-gray-300 flex items-center py-[1rem] px-6 w-full`}
+                  className={`justify-center mt-2 hover:bg-gray-300 flex items-center py-[1rem] px-6 w-full`}
                 >
-                  <FaPowerOff className="mr-2" />
+                  <FaPowerOff className="mr-2 opacity-40 mt-px" />
                   Wyloguj
                 </button>
               )}
-              {user.uid === "" && (
+              {user?.uid === "" && (
                 <div className="sticky bottom-0 grid grid-cols-2 gap-3 px-6 pb-6 bg-white">
                   <button
                     onClick={() => {
                       setNavOpen(!isNavOpen);
                       setRegisterModalOpen(true);
                     }}
-                    className={`rounded-md text-white text-sm relative justify-center flex items-center py-[0.65rem] duration-150 w-full hover:bg-[#FF5F8F]/65 bg-[#FF5F8F]/85`}
+                    className={`rounded-md text-white text-sm relative justify-center flex items-center py-[0.65rem] duration-150 w-full hover:bg-green-500 bg-green-600`}
                   >
                     Utwórz konto
                   </button>

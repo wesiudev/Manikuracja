@@ -10,6 +10,7 @@ export default function CreateAccountForm({
   setNavOpen,
   setRegisterModalOpen,
   setLoginModalOpen,
+  setProfileConfigOpen,
 }: {
   createAccount: any;
   setUserData: any;
@@ -18,6 +19,7 @@ export default function CreateAccountForm({
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setProfileConfigOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div>
@@ -48,7 +50,6 @@ export default function CreateAccountForm({
               required
               type="password"
               placeholder="Wpisz hasło"
-              id="password"
               value={userData.password}
               onChange={(e) =>
                 setUserData({ ...userData, password: e.target.value })
@@ -68,7 +69,6 @@ export default function CreateAccountForm({
               required
               type="password"
               placeholder="Powtórz hasło"
-              id="repeatPassword"
               value={userData.repeatPassword}
               onChange={(e) =>
                 setUserData({ ...userData, repeatPassword: e.target.value })
@@ -101,6 +101,7 @@ export default function CreateAccountForm({
         setNavOpen={setNavOpen}
         setRegisterModalOpen={setRegisterModalOpen}
         setLoginModalOpen={setLoginModalOpen}
+        setProfileConfigOpen={setProfileConfigOpen}
       />
     </div>
   );

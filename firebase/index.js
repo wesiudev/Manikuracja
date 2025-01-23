@@ -25,6 +25,18 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASURMENT_ID,
 };
+const firebaseConfig2 = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY2,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN2,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID2,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET2,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID2,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID2,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASURMENT_ID2,
+};
+export const app2 = initializeApp(firebaseConfig2, "admin");
+export const auth2 = getAuth(app2);
+export const db2 = getFirestore(app2);
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -143,7 +155,41 @@ export async function addOpinion(data) {
   });
   return id;
 }
+export async function updateUserSubscriptionData(
+  userId,
+  subscriptionId,
+  customerId,
+  payment
+) {
+  const userRef = doc(db, "users", userId);
 
+  try {
+    // Check if the user document exists
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      // Update the subscriptionId and customerId for recurring payments
+      // Append the new payment to the existing `payments` array
+      await updateDoc(userRef, {
+        subscriptionId,
+        customerId,
+        payments: arrayUnion(payment),
+        active: payment.result === "paid" ? true : false,
+      });
+    } else {
+      // Initialize the user data for a new subscription
+      await setDoc(userRef, {
+        subscriptionId,
+        customerId,
+        payments: [payment],
+        active: payment.result === "paid" ? true : false,
+      });
+    }
+  } catch (error) {
+    console.error("Error updating subscription data:", error);
+    throw error; // Propagate the error for additional handling if needed
+  }
+}
 export async function pushAssistantMessage(data, uid) {
   const userDocRef = doc(collection(db, "users"), uid);
   const userDocSnap = await getDoc(userDocRef);
@@ -575,6 +621,7 @@ export {
   getDocument,
   getDocuments,
   db,
+  app,
   provider,
   storage,
   updateUserLeads,
