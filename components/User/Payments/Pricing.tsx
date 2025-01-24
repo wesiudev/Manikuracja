@@ -16,7 +16,7 @@ export default function Pricing({
       onClick={() => {
         setPricingOpen(false);
       }}
-      className={`bg-black/50 z-[80] overflow-y-scroll fixed left-0 top-0 w-screen h-screen flex items-center justify-center ${
+      className={`bg-black/50 z-[92] overflow-y-scroll fixed left-0 top-0 w-screen h-screen flex items-center justify-center ${
         !pricingOpen && "hidden"
       }`}
     >

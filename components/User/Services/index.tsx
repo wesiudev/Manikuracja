@@ -56,7 +56,7 @@ export default function Services({
         onClick={() => {
           setServicesOpen(false);
         }}
-        className={`bg-black/50 z-[80] fixed left-0 top-0 w-screen h-screen overflow-y-scroll flex  p-6 lg:p-12 xl:p-40 2xl:p-64 !pt-6 lg:!pt-12 xl:!pt-24 pb-24 ${
+        className={`bg-black/50 z-[92] fixed left-0 top-0 w-screen h-screen overflow-y-scroll flex  p-6 lg:p-12 xl:p-40 2xl:p-64 !pt-6 lg:!pt-12 xl:!pt-24 pb-24 ${
           servicesOpen && user?.configured ? "block" : "hidden"
         }`}
       >
