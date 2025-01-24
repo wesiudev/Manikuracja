@@ -76,10 +76,10 @@ export default function AccountDisplay({
                   dispatch(
                     setUser({
                       ...user,
-                      services: user.services.some(
+                      services: user?.services?.some(
                         (s) => s.flatten_name === item.flatten_name
                       )
-                        ? user.services.filter(
+                        ? user?.services?.filter(
                             (service) =>
                               service.flatten_name !== item.flatten_name
                           )
@@ -88,7 +88,7 @@ export default function AccountDisplay({
                   )
                 }
                 className={`${
-                  user.services.some(
+                  user?.services?.some(
                     (s) => s.flatten_name === item.flatten_name
                   )
                     ? "bg-green-500 text-white font-bold"
@@ -127,7 +127,7 @@ export default function AccountDisplay({
                   dispatch(
                     setUser({
                       ...user,
-                      services: user.services.some(
+                      services: user?.services?.some(
                         (s) => s.flatten_name === item.flatten_name
                       )
                         ? user.services.filter(
@@ -139,7 +139,7 @@ export default function AccountDisplay({
                   )
                 }
                 className={`${
-                  user.services.some(
+                  user?.services?.some(
                     (s) => s.flatten_name === item.flatten_name
                   )
                     ? "bg-green-500 text-white font-bold"
