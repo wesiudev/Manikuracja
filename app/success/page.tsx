@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SuccessPage() {
   const router = useRouter();
