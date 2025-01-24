@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export default function SuccessPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default function SuccessPage() {
+  const searchParams = useSearchParams();
+
+  const session_id = searchParams.get("search");
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -14,7 +14,7 @@ export default function SuccessPage({
 
   useEffect(() => {
     const fetchSessionData = async () => {
-      if (!searchParams?.session_id) {
+      if (session_id) {
         setErrorMessage("Missing session ID.");
         setLoading(false);
         return;
@@ -22,7 +22,7 @@ export default function SuccessPage({
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/stripe/success?session_id=${searchParams?.session_id}`,
+          `${process.env.NEXT_PUBLIC_URL}/stripe/success?session_id=${session_id}`,
           {
             method: "GET",
           }
