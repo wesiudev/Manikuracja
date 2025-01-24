@@ -1,4 +1,4 @@
-// pages/success.tsx
+"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function SuccessPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -20,9 +21,12 @@ export default function SuccessPage() {
       }
 
       try {
-        const response = await fetch(`/api/success?session_id=${session_id}`, {
-          method: "GET",
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_URL}/stripe/success?session_id=${session_id}`,
+          {
+            method: "GET",
+          }
+        );
 
         const data = await response.json();
 
@@ -52,18 +56,32 @@ export default function SuccessPage() {
 
   if (errorMessage) {
     return (
-      <div>
-        <h1>Subscription Failed</h1>
-        <p>{errorMessage}</p>
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+          <h1 className="text-4xl font-bold text-red-500">Nie udało się!</h1>
+          <p className="text-lg text-gray-600">
+            Nie pobralismy środków z Twojego konta
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>Subscription Successful</h1>
-      <p>{successMessage}</p>
-      <Link href="/">Strona główna</Link>
+    <div className="flex items-center justify-center w-full h-screen">
+      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+        <h1 className="text-4xl font-bold text-green-500">
+          Transakcja przebiegła pomyślnie!
+        </h1>
+        <p className="text-lg text-gray-600">
+          Wróć do strony głównej aby dokończyć konfigurację profilu.
+        </p>
+        <Link href="/">
+          <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Strona główna
+          </a>
+        </Link>
+      </div>
     </div>
   );
 }
