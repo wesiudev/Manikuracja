@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import Results from "@/components/SearchBar/Results";
 import ServicesArray from "@/components/SearchBar/ServicesArray";
 import { ICity } from "@/types";
+import { getCityUsers } from "@/utils/getCityUsers";
 import { getServices } from "@/utils/getServices";
 import { getSingleCity } from "@/utils/getSingleCity";
 import { Viewport } from "next";
@@ -30,12 +31,7 @@ export default async function ServiceCitySlug({
   if (city?.error) {
     return <NotFound />;
   }
-  const results = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/results/${city.id}`,
-    {
-      method: "POST",
-    }
-  ).then((res) => res.json());
+  const results = await getCityUsers(city.id);
   console.log(results);
   return (
     <div className="min-h-screen flex flex-col">

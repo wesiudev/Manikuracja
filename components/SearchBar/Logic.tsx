@@ -78,7 +78,7 @@ export default function Logic({ slugCity }: { slugCity?: string }) {
             setCurrentCitiesArray([]);
             setInputClicked(false);
           }}
-          className="fixed left-0 top-0 w-full h-full bg-black/50 z-0"
+          className="fixed left-0 top-0 w-full h-full bg-black/50 z-90"
         ></div>
       )}
       <div className="relative w-full">
@@ -104,7 +104,7 @@ export default function Logic({ slugCity }: { slugCity?: string }) {
             setInputClicked(true);
           }}
           placeholder={slugCity || "Wybierz miasto"}
-          className="z-[60] block rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+          className="z-[91] block rounded-md mt-1 w-full px-2 py-2 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
           autoComplete="off"
           list="no-autocomplete"
         />

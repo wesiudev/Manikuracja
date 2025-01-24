@@ -5,9 +5,10 @@ import PostSamples from "@/components/PostSamples";
 import SearchBar from "@/components/SearchBar";
 import Results from "@/components/SearchBar/Results";
 import ServicesArray from "@/components/SearchBar/ServicesArray";
-import { ICity, IService } from "@/types";
+import { ICity, IService, User } from "@/types";
 import { getCities } from "@/utils/getCities";
 import { getServices } from "@/utils/getServices";
+import { getCityServiceUsers } from "@/utils/getServiceUsers";
 import { getSingleCity } from "@/utils/getSingleCity";
 import { Viewport } from "next";
 import Image from "next/image";
@@ -34,7 +35,10 @@ export default async function ServiceCitySlug({
   if (!s || !cityData) {
     return <NotFound />;
   }
-  const results: string[] = [];
+  const results: User[] = await getCityServiceUsers(
+    cityData.id,
+    s.flatten_name
+  );
   return (
     <div className="flex flex-col">
       <div>

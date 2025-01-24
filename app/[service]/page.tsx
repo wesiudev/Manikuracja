@@ -1,13 +1,14 @@
 import noResults from "../../public/no-results.png";
 import SearchBar from "@/components/SearchBar";
 import NotFound from "../not-found";
-import { IService } from "@/types";
+import { IService, User } from "@/types";
 import { getSingleService } from "@/utils/getSingleService";
 import Results from "@/components/SearchBar/Results";
 import Image from "next/image";
 import CtaRegisterButton from "@/components/Cta";
 import PostSamples from "@/components/PostSamples";
 import { Viewport } from "next";
+import { getServiceUsers } from "@/utils/getCityServiceUsers";
 
 export async function generateStaticParams() {
   const services = await fetch(`${process.env.NEXT_PUBLIC_URL}/services`, {
@@ -26,7 +27,7 @@ export default async function ServiceSlug({
   const { service } = await params;
   const s = await getSingleService(service);
 
-  const results: string[] = [];
+  const results: User[] = await getServiceUsers(s.flatten_name);
   if (s.error) {
     return <NotFound />;
   }

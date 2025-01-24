@@ -140,11 +140,11 @@ export default function Nav() {
         {isNavOpen && (
           <div
             onClick={() => setNavOpen(false)}
-            className="lg:hidden fixed left-0 top-0 w-full h-full bg-black/50 z-[10]"
+            className="lg:hidden fixed left-0 top-0 w-full h-full bg-black/50 z-[90]"
           ></div>
         )}
         <div
-          className={`z-[70] text-gray-800 bg-white pt-6 h-full fixed left-0 scrollbar ${
+          className={`z-[91] text-gray-800 bg-white pt-6 h-full fixed left-0 scrollbar ${
             isNavOpen
               ? "translate-x-[0] duration-300"
               : "-translate-x-[300px] lg:-translate-x-0 duration-300"

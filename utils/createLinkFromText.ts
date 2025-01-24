@@ -20,7 +20,8 @@ export function createLinkFromText(sentence: string): string {
     .replace(/\s/g, "-")
     .replace(/[^\w\s-]/g, "")
     .toLowerCase()
-    .replace(/-+/g, "-");
+    .replace(/-+/g, "-")
+    .replace(/-$/, "");
 
   return sanitizedSentence;
 }

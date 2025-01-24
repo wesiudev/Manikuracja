@@ -46,6 +46,29 @@ export default function PricingButton({
           Zarejestruj się
         </button>
       )}
+      {user?.active && (
+        <button
+          onClick={async () => {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_URL}/stripe/customer-portal`,
+              {
+                method: "POST",
+                body: JSON.stringify({ uid: user?.uid }),
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            const data = await response.json();
+            if (data.success) {
+              window.location.href = data.url; // Redirect to Stripe Customer Portal
+            } else {
+              console.error(data.error);
+            }
+          }}
+          className="w-max mx-auto text-sm text-gray-500 mt-2 block text-center"
+        >
+          Wyłącz subskrybcję
+        </button>
+      )}
     </div>
   );
 }

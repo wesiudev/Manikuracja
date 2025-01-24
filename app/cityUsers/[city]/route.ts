@@ -12,5 +12,11 @@ export async function POST(
   const filteredUsers = users.filter((user: User) =>
     createLinkFromText(user.location.address).includes(city)
   );
-  return NextResponse.json(filteredUsers);
+  if (filteredUsers.length === 0) {
+    return NextResponse.json([]);
+  } else {
+    return NextResponse.json(
+      filteredUsers.map((user: User) => ({ ...user, email: "hidden" }))
+    );
+  }
 }

@@ -117,14 +117,30 @@ export default function Services({
                       <div className="flex space-x-3">
                         <button
                           onClick={() => {
-                            setEditingService({
-                              ...service,
-                              isCustomService: service.isCustomService || false,
-                              duration: service.duration || 0,
-                              price: service.price || 0,
-                              description: service.description || "",
-                            });
-                            setEditingIndex(index);
+                            if (user?.active) {
+                              setEditingService({
+                                ...service,
+                                isCustomService:
+                                  service.isCustomService || false,
+                                duration: service.duration || 0,
+                                price: service.price || 0,
+                                description: service.description || "",
+                              });
+                              setEditingIndex(index);
+                            } else {
+                              toast.error(
+                                "Aktywuj konto premium, aby spersonalizować usługi.",
+                                {
+                                  position: "top-center",
+                                  autoClose: 5000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                }
+                              );
+                            }
                           }}
                           className="text-blue-600 hover:text-blue-800 font-medium"
                         >
@@ -183,7 +199,7 @@ export default function Services({
                   });
                 } else {
                   toast.error(
-                    "Aktywuj konto premium, aby dodać własne usługi!",
+                    "Aktywuj konto premium, aby dodać własne usługi.",
                     {
                       position: "top-center",
                       autoClose: 5000,
