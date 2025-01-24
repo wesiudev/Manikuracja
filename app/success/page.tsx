@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function SuccessPage() {
-  const router = useRouter();
+export default function SuccessPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -12,9 +14,7 @@ export default function SuccessPage() {
 
   useEffect(() => {
     const fetchSessionData = async () => {
-      const { session_id } = router.query;
-
-      if (!session_id) {
+      if (!searchParams?.session_id) {
         setErrorMessage("Missing session ID.");
         setLoading(false);
         return;
@@ -22,7 +22,7 @@ export default function SuccessPage() {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/stripe/success?session_id=${session_id}`,
+          `${process.env.NEXT_PUBLIC_URL}/stripe/success?session_id=${searchParams?.session_id}`,
           {
             method: "GET",
           }
@@ -45,10 +45,8 @@ export default function SuccessPage() {
       }
     };
 
-    if (router.isReady) {
-      fetchSessionData();
-    }
-  }, [router.isReady, router.query]);
+    fetchSessionData();
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
