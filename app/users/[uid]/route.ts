@@ -10,5 +10,8 @@ export async function POST(
   }
   const { uid } = await params;
   const user = await getDocument("users", uid);
+  if (!user) {
+    return NextResponse.json({ error: "User not found" });
+  }
   return NextResponse.json(user);
 }

@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const sessionId = url.searchParams.get("session_id");
-
+export async function POST(req: Request) {
+  const data = await req.json();
+  const sessionId = data.session_id;
+  console.log(`to jest sesja: ${sessionId}`);
   if (!sessionId) {
     return NextResponse.json({
       success: false,

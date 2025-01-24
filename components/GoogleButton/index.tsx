@@ -27,7 +27,7 @@ export default function GoogleAuthButton({
       const result = await signInWithPopup(auth, provider);
       const { user }: UserCredential = await result;
       const existingUser = await fetchUser(user?.uid);
-      if (!existingUser) {
+      if (existingUser.error) {
         await createUser({
           uid: user?.uid,
           name: user?.displayName,

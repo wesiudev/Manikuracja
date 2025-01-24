@@ -6,7 +6,7 @@ import { Suspense } from "react";
 function Success() {
   const searchParams = useSearchParams();
 
-  const session_id = searchParams.get("search");
+  const session_id = searchParams.get("session_id");
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -14,7 +14,7 @@ function Success() {
 
   useEffect(() => {
     const fetchSessionData = async () => {
-      if (session_id) {
+      if (!session_id) {
         setErrorMessage("Missing session ID.");
         setLoading(false);
         return;
@@ -22,9 +22,10 @@ function Success() {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/stripe/success?session_id=${session_id}`,
+          `${process.env.NEXT_PUBLIC_URL}/stripe/success`,
           {
-            method: "GET",
+            method: "POST",
+            body: JSON.stringify({ session_id }),
           }
         );
 
@@ -51,36 +52,36 @@ function Success() {
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  if (errorMessage) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-          <h1 className="text-4xl font-bold text-red-500">Nie udało się!</h1>
-          <p className="text-lg text-gray-600">
-            Nie pobralismy środków z Twojego konta
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex items-center justify-center w-full h-screen">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-        <h1 className="text-4xl font-bold text-green-500">
-          Transakcja przebiegła pomyślnie!
-        </h1>
-        <p className="text-lg text-gray-600">
-          Wróć do strony głównej aby dokończyć konfigurację profilu.
-        </p>
-        <Link href="/">
-          <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Strona główna
-          </a>
-        </Link>
-      </div>
-    </div>
+    <>
+      {errorMessage ? (
+        <div className="flex items-center justify-center w-full h-screen">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+            <h1 className="text-4xl font-bold text-red-500">Nie udało się!</h1>
+            <p className="text-lg text-gray-600">
+              Nie pobralismy środków z Twojego konta
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center w-full h-screen text-center">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto space-y-3">
+            <h1 className="text-2xl font-bold text-green-500">
+              Transakcja przebiegła pomyślnie!
+            </h1>
+            <p className="text-lg text-gray-600">
+              Wróć do strony głównej aby dokończyć konfigurację profilu.
+            </p>
+            <Link
+              className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-max mx-auto"
+              href="/"
+            >
+              Strona główna
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     // Create a Stripe Customer Portal session
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customer.customerId, // Use the Stripe customer ID
-      return_url: `${process.env.NEXT_PUBLIC_URL}/stripe/webhook`, // Where to return after portal actions
+      return_url: `${process.env.NEXT_PUBLIC_URL}`, // Where to return after portal actions
     });
 
     return NextResponse.json({
