@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
+import { Suspense } from "react";
 export default function SuccessPage() {
   const searchParams = useSearchParams();
 
@@ -54,32 +54,36 @@ export default function SuccessPage() {
 
   if (errorMessage) {
     return (
-      <div className="flex items-center justify-center w-full h-screen">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-          <h1 className="text-4xl font-bold text-red-500">Nie udało się!</h1>
-          <p className="text-lg text-gray-600">
-            Nie pobralismy środków z Twojego konta
-          </p>
+      <Suspense>
+        <div className="flex items-center justify-center w-full h-screen">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+            <h1 className="text-4xl font-bold text-red-500">Nie udało się!</h1>
+            <p className="text-lg text-gray-600">
+              Nie pobralismy środków z Twojego konta
+            </p>
+          </div>
         </div>
-      </div>
+      </Suspense>
     );
   }
 
   return (
-    <div className="flex items-center justify-center w-full h-screen">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-        <h1 className="text-4xl font-bold text-green-500">
-          Transakcja przebiegła pomyślnie!
-        </h1>
-        <p className="text-lg text-gray-600">
-          Wróć do strony głównej aby dokończyć konfigurację profilu.
-        </p>
-        <Link href="/">
-          <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Strona główna
-          </a>
-        </Link>
+    <Suspense>
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+          <h1 className="text-4xl font-bold text-green-500">
+            Transakcja przebiegła pomyślnie!
+          </h1>
+          <p className="text-lg text-gray-600">
+            Wróć do strony głównej aby dokończyć konfigurację profilu.
+          </p>
+          <Link href="/">
+            <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Strona główna
+            </a>
+          </Link>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
