@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const customer = await fetchUser(uid); // Implement this in your database logic
 
     if (!customer) {
-      throw new Error("Customer not found");
+      console.log("Customer not found");
     }
 
     // Create a Stripe Customer Portal session

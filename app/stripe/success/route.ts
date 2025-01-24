@@ -1,9 +1,7 @@
 import { updateUserSubscriptionData } from "@/firebase";
 import { NextResponse } from "next/server";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const stripe = require("stripe")(
-  "sk_test_51Qim85B1ANRdJriTQgpuz2sadWfqXwdH4TPD9fuyOp3aiNUVrFKwkgmBck1PkN1LwqPYH7IPrDMssUx27np7VssJ00GJHYCgg4"
-);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function GET(req: Request) {
   const url = new URL(req.url);

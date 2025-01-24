@@ -51,11 +51,11 @@ export async function getUserById(userId) {
     const userDocRef = doc(db, "users", userId);
     const userDoc = await getDoc(userDocRef);
     if (!userDoc.exists()) {
-      throw Error(`User with ID ${userId} does not exist`);
+      console.log(`User with ID ${userId} does not exist`);
     }
     return userDoc.data();
   } catch (error) {
-    throw error;
+    return error;
   }
 }
 export async function addMessageToConversation(
@@ -69,7 +69,7 @@ export async function addMessageToConversation(
     const conversationDocRef = doc(db, conversationId, conversationId);
     const conversationDoc = await getDoc(conversationDocRef);
     if (!conversationDoc.exists()) {
-      throw Error(`Conversation with ID ${conversationId} does not exist`);
+      console.log(`Conversation with ID ${conversationId} does not exist`);
     }
 
     const messages = conversationDoc.data().messages || [];
@@ -83,7 +83,7 @@ export async function addMessageToConversation(
       messages: messages,
     });
   } catch (error) {
-    throw error; // Optionally rethrow the error to handle it further up the call stack
+    return error;
   }
 }
 export async function createConversation(conversationId, conversationData) {
@@ -92,7 +92,7 @@ export async function createConversation(conversationId, conversationData) {
     await setDoc(conversationDocRef, conversationData);
     return { id: conversationId, ...conversationData };
   } catch (error) {
-    throw error;
+    return error;
   }
 }
 export async function addConversation(participants) {
@@ -120,7 +120,7 @@ export async function addConversation(participants) {
       if (
         Object.values(newConversationData).some((value) => value === undefined)
       ) {
-        throw new Error("Undefined value found in conversation data");
+        console.log("Undefined value found in conversation data");
       }
 
       // Set the document with initial data
@@ -130,7 +130,7 @@ export async function addConversation(participants) {
       return conversationId;
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 
@@ -187,7 +187,7 @@ export async function updateUserSubscriptionData(
     }
   } catch (error) {
     console.error("Error updating subscription data:", error);
-    throw error; // Propagate the error for additional handling if needed
+    console.log(error); // Propagate the error for additional handling if needed
   }
 }
 export async function pushAssistantMessage(data, uid) {
