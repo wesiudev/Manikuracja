@@ -20,27 +20,26 @@ export default async function SearchBar({
             priority
           />
         </div>
-        <h1 className="mt-3 text-2xl sm:text-3xl text-zinc-800 drop-shadow-lg shadow-black font-bold">
-          {slugCity && !service && (
-            <>
-              Najlepsi specjaliści od paznokci{" "}
-              <span className="text-[#FF5F8F]">{slugCity}</span>
-            </>
-          )}
-          {slugCity && service && (
-            <>
-              Zarezerwuj {service.real_name.toLowerCase()} w{" "}
-              <span className="text-[#FF5F8F]">{slugCity}</span>
-            </>
-          )}{" "}
+        {slugCity && !service && (
+          <h1 className="mt-3 text-2xl sm:text-3xl text-zinc-800 drop-shadow-lg shadow-black font-bold">
+            Najlepsi specjaliści od paznokci{" "}
+            <span className="text-[#FF5F8F]">{slugCity}</span>
+          </h1>
+        )}
+        {slugCity && service && (
+          <h1 className="mt-3 text-2xl sm:text-3xl text-zinc-800 drop-shadow-lg shadow-black font-bold">
+            Zarezerwuj {service.real_name.toLowerCase()} w{" "}
+            <span className="text-[#FF5F8F]">{slugCity}</span>
+          </h1>
+        )}{" "}
+        <h2 className="mt-3 text-2xl sm:text-3xl text-zinc-800 drop-shadow-lg shadow-black font-bold">
           {!slugCity && (
             <>
               Umów się na paznokcie w{" "}
               <span className="text-[#FF5F8F]">Twoim mieście</span>
             </>
           )}
-        </h1>
-
+        </h2>
         <Logic slugCity={slugCity} />
       </div>
     </>

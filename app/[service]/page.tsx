@@ -7,6 +7,7 @@ import Results from "@/components/SearchBar/Results";
 import Image from "next/image";
 import CtaRegisterButton from "@/components/Cta";
 import PostSamples from "@/components/PostSamples";
+import { Viewport } from "next";
 
 export async function generateStaticParams() {
   const services = await fetch(`${process.env.NEXT_PUBLIC_URL}/services`, {
@@ -71,4 +72,89 @@ export default async function ServiceSlug({
       </div>
     </div>
   );
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ec4899",
+};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ service: string }>;
+}) {
+  const { service } = await params;
+  const serviceData = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/service/${service}`,
+    { next: { revalidate: 3600 } }
+  );
+  const s: IService = await serviceData.json();
+  return {
+    title: `${s.real_name.replace(
+      /\([^)]+\)/g,
+      ""
+    )} - Rezerwacje i profile specjalistów`,
+    description: `Przeglądaj profile specjalistów oferujących ${s.real_name.replace(
+      /\([^)]+\)/g,
+      ""
+    )}. Stwórz portfolio manicure lub pedicure i wyświetlaj usługi w swoim mieście już dziś.`,
+    publisher: "manikuracja.pl",
+    url: `https://manikuracja.pl/${s.flatten_name}`,
+    authors: [
+      {
+        name: "Manikuracja",
+        url: "https://manikuracja.pl",
+      },
+    ],
+    icons: [
+      {
+        url: "/fav.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
+    openGraph: {
+      type: "website",
+      url: `https://manikuracja.pl/${s.flatten_name}`,
+      title: `${s.real_name.replace(
+        /\([^)]+\)/g,
+        ""
+      )} - Rezerwacje i profile specjalistów`,
+      description: `Przeglądaj profile specjalistów oferujących ${s.real_name.replace(
+        /\([^)]+\)/g,
+        ""
+      )}. Stwórz portfolio manicure lub pedicure i wyświetlaj usługi w swoim mieście już dziś.`,
+      siteName: "Manikuracja",
+      images: [
+        {
+          url: "../../public/pricing.png",
+          type: "image/png",
+        },
+      ],
+    },
+    twitter: {
+      cardType: "summary_large_image",
+      site: "@Manikuracja",
+      title: `${s.real_name.replace(
+        /\([^)]+\)/g,
+        ""
+      )} - Rezerwacje i profile specjalistów`,
+      description: `Przeglądaj profile specjalistów oferujących ${s.real_name.replace(
+        /\([^)]+\)/g,
+        ""
+      )}. Stwórz portfolio manicure lub pedicure i wyświetlaj usługi w swoim mieście już dziś.`,
+      image: {
+        url: "../../public/pricing.png",
+      },
+    },
+    meta: [
+      {
+        name: "theme-color",
+        content: "#ec4899",
+      },
+    ],
+  };
 }

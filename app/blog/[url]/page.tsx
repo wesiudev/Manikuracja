@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import { PostSample } from "@/types";
 import { getPost } from "@/utils/getPost";
 import { getPostSamples } from "@/utils/getPostSamples";
+import { Viewport } from "next";
 import Image from "next/image";
 
 export async function generateStaticParams() {
@@ -84,4 +85,66 @@ export default async function BlogPostPage({
       </div>
     </div>
   );
+}
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ec4899",
+};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ url: string }>;
+}) {
+  const { url } = await params;
+  const post = await getPost(url);
+  return {
+    title: post.googleTitle,
+    description: post.googleDescription,
+    publisher: "wesiudev.com",
+    url: `https://manikuracja.pl/blog/${post.url}`,
+    authors: [
+      {
+        name: "Manikuracja",
+        url: "https://manikuracja.pl",
+      },
+    ],
+    icons: [
+      {
+        url: "/fav.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
+    openGraph: {
+      type: "website",
+      url: `https://manikuracja.pl/blog/${post.url}`,
+      title: post.googleTitle,
+      description: post.googleDescription,
+      siteName: "Manikuracja",
+      images: [
+        {
+          url: post.images[0].src,
+          type: "image/png",
+        },
+      ],
+    },
+    twitter: {
+      cardType: "summary_large_image",
+      site: "@Manikuracja",
+      title: post.googleTitle,
+      description: post.googleDescription,
+      image: {
+        url: post.images[0].src,
+      },
+    },
+    meta: [
+      {
+        name: "theme-color",
+        content: "#ec4899",
+      },
+    ],
+  };
 }

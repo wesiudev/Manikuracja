@@ -1,3 +1,4 @@
+import { Metadata, Viewport } from "next";
 import CtaRegisterButton from "@/components/Cta";
 import PostSamples from "@/components/PostSamples";
 import SearchBar from "@/components/SearchBar";
@@ -20,9 +21,9 @@ export default async function Home() {
       <div>
         <div className="mt-3 rounded-lg p-6 py-12 bg-white">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-4xl font-bold mb-4 text-center text-zinc-800 drop-shadow-sm shadow-black">
+            <h1 className="text-2xl md:text-4xl font-bold mb-4 text-center text-zinc-800 drop-shadow-sm shadow-black">
               Znajdź ulubionego specjalistę manicure i pedicure
-            </h2>
+            </h1>
             <p className="text-center mb-6">
               Wybierz spośród najlepszych specjalistów w Twojej okolicy.
             </p>
@@ -146,3 +147,34 @@ export default async function Home() {
     </div>
   );
 }
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ec4899",
+};
+export const metadata: Metadata = {
+  publisher: "manikuracja.pl",
+  manifest: "/manifest.json",
+  icons: [
+    {
+      url: "/fav.png",
+      sizes: "192x192",
+      type: "image/png",
+    },
+  ],
+  title:
+    "Manikuracja.pl: Aplikacja zaprojektowana z myślą o Twoich paznokciach",
+  description:
+    "Profesjonalne profile specjalistów manicure i pedicure. Znajdź najlepsze usługi w swojej okolicy. Zarejestruj się już dziś!",
+  openGraph: {
+    type: "website",
+    url: "https://manikuracja.pl",
+    title:
+      "Manikuracja.pl: Aplikacja zaprojektowana z myślą o Twoich paznokciach",
+    description:
+      "Profesjonalne profile specjalistów manicure i pedicure. Znajdź najlepsze usługi w swojej okolicy. Zarejestruj się już dziś!",
+    siteName: "manikuracja.pl",
+  },
+};

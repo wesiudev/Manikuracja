@@ -9,6 +9,7 @@ import { ICity, IService } from "@/types";
 import { getCities } from "@/utils/getCities";
 import { getServices } from "@/utils/getServices";
 import { getSingleCity } from "@/utils/getSingleCity";
+import { Viewport } from "next";
 import Image from "next/image";
 export async function generateStaticParams() {
   const cities = await getCities();
@@ -27,8 +28,8 @@ export default async function ServiceCitySlug({
     `${process.env.NEXT_PUBLIC_URL}/service/${service}`,
     { next: { revalidate: 3600 } }
   );
-  const cityData = await getSingleCity(city);
   const s: IService = await serviceData.json();
+  const cityData: ICity = await getSingleCity(city);
   const services = await getServices();
   if (!s || !cityData) {
     return <NotFound />;
@@ -79,4 +80,93 @@ export default async function ServiceCitySlug({
       </div>
     </div>
   );
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ec4899",
+};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ service: string; city: string }>;
+}) {
+  const { service, city } = await params;
+  const serviceData = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/service/${service}`,
+    { next: { revalidate: 3600 } }
+  );
+  const s: IService = await serviceData.json();
+  const cityData: ICity = await getSingleCity(city);
+  return {
+    title: `${s.real_name.replace(/\([^)]+\)/g, "")} - Paznokcie ${
+      cityData.name
+    } Rezerwacje`,
+    description: `Przeglądaj profile specjalistów oferujących ${s.real_name.replace(
+      /\([^)]+\)/g,
+      ""
+    )} w ${
+      cityData.name
+    }. Stwórz portfolio manicure lub pedicure i wyświetlaj usługi w swoim mieście już dziś.`,
+    publisher: "manikuracja.pl",
+    url: `https://manikuracja.pl/${s.flatten_name}/${cityData.id}`,
+    authors: [
+      {
+        name: "Manikuracja",
+        url: "https://manikuracja.pl",
+      },
+    ],
+    icons: [
+      {
+        url: "/fav.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
+    openGraph: {
+      type: "website",
+      url: `https://manikuracja.pl/${s.flatten_name}/${cityData.id}`,
+      title: `${s.real_name.replace(/\([^)]+\)/g, "")} - Paznokcie ${
+        cityData.name
+      } Rezerwacje`,
+      description: `Przeglądaj profile specjalistów oferujących ${s.real_name.replace(
+        /\([^)]+\)/g,
+        ""
+      )} w ${
+        cityData.name
+      }. Stwórz portfolio manicure lub pedicure i wyświetlaj usługi w swoim mieście już dziś.`,
+      siteName: "Manikuracja",
+      images: [
+        {
+          url: "../../../public/pricing.png",
+          type: "image/png",
+        },
+      ],
+    },
+    twitter: {
+      cardType: "summary_large_image",
+      site: "@Manikuracja",
+      title: `${s.real_name.replace(/\([^)]+\)/g, "")} - Paznokcie ${
+        cityData.name
+      } Rezerwacje`,
+      description: `Przeglądaj profile specjalistów oferujących ${s.real_name.replace(
+        /\([^)]+\)/g,
+        ""
+      )} w ${
+        cityData.name
+      }. Stwórz portfolio manicure lub pedicure i wyświetlaj usługi w swoim mieście już dziś.`,
+      image: {
+        url: "../../../public/pricing.png",
+      },
+    },
+    meta: [
+      {
+        name: "theme-color",
+        content: "#ec4899",
+      },
+    ],
+  };
 }

@@ -85,14 +85,6 @@ export default function Nav() {
         },
       ],
     },
-    {
-      title: "Blog",
-      action: () => {
-        setExpandedItems([]);
-        router.push("/blog");
-      },
-      icon: <FaBook />,
-    },
   ];
   const dispatch = useDispatch();
   function logout() {
@@ -276,6 +268,19 @@ export default function Nav() {
                           )}
                       </div>
                     ))}
+                    <button
+                      onClick={() => {
+                        router.push("/blog");
+                      }}
+                      className={`hover:bg-gray-300 border-transparent duration-150 flex items-center justify-between py-[1rem] px-6 w-full`}
+                    >
+                      <div className="flex flex-row items-center">
+                        <div className="mr-2">
+                          <FaBook />
+                        </div>
+                        Blog
+                      </div>
+                    </button>
                   </div>
                 </div>
               </div>

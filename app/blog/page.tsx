@@ -1,6 +1,7 @@
 import SearchBar from "@/components/SearchBar";
 import { PostSample } from "@/types";
 import { getPostSamples } from "@/utils/getPostSamples";
+import { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,6 +10,13 @@ export default async function Page() {
   return (
     <div>
       <SearchBar slugCity="" />
+      <div className="p-6 rounded-lg bg-white mt-3">
+        <h1 className="text-xl text-zinc-800 drop-shadow-lg shadow-black font-bold">
+          Wszystko o stylizacjach paznokci, poradniki oraz nowości ze świata
+          manicure i pedicure
+        </h1>
+        <p className="mt-1.5">Zapoznaj się z naszymi najnowszymi postami</p>
+      </div>
       {samples.map((item: PostSample, i: number) => (
         <div
           key={i}
@@ -23,7 +31,7 @@ export default async function Page() {
               className="w-full rounded-lg"
             />
             <Link
-              href={`${process.env.NEXT_PUBLIC_BLOG_URL}/blog/${item.url}`}
+              href={`${process.env.NEXT_PUBLIC_URL}/blog/${item.url}`}
               title={`Cały post ${item.title}`}
               className="text-center mt-3 rounded-md block py-3 w-full bg-green-500 text-white hover:bg-green-600 duration-150"
             >
@@ -55,3 +63,32 @@ export default async function Page() {
     </div>
   );
 }
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ec4899",
+};
+export const metadata: Metadata = {
+  publisher: "manikuracja.pl",
+  manifest: "/manifest.json",
+  icons: [
+    {
+      url: "/fav.png",
+      sizes: "192x192",
+      type: "image/png",
+    },
+  ],
+  title: "Manikuracja.pl: Blog o manicure i pedicure - poradniki i nowości",
+  description:
+    "Znajdziesz tutaj wiedzę o zdrowiu, stylu i nowości ze świata paznokci. Zapraszamy do zapoznania się z naszym blogiem!",
+  openGraph: {
+    type: "website",
+    url: "https://manikuracja.pl",
+    title: "Manikuracja.pl: Blog o manicure i pedicure - poradniki i nowości",
+    description:
+      "Znajdziesz tutaj wiedzę o zdrowiu, stylu i nowości ze świata paznokci. Zapraszamy do zapoznania się z naszym blogiem!",
+    siteName: "manikuracja.pl",
+  },
+};
