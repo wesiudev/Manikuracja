@@ -64,13 +64,6 @@ export default function Nav() {
           icon: <FaCog />,
         },
         {
-          title: "Premium",
-          action: () => {
-            setPricingOpen(!pricingOpen);
-          },
-          icon: <FaDollarSign />,
-        },
-        {
           title: "Usługi",
           action: () => {
             if (user?.uid === "") {
@@ -82,6 +75,13 @@ export default function Nav() {
             }
           },
           icon: <FaTag />,
+        },
+        {
+          title: "Premium",
+          action: () => {
+            setPricingOpen(!pricingOpen);
+          },
+          icon: <FaDollarSign />,
         },
       ],
     },
