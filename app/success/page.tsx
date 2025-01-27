@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import Script from "next/script";
 function Success() {
   const searchParams = useSearchParams();
 
@@ -64,22 +65,34 @@ function Success() {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-center w-full h-screen text-center">
-          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto space-y-3">
-            <h1 className="text-2xl font-bold text-green-500">
-              Transakcja przebiegła pomyślnie!
-            </h1>
-            <p className="text-lg text-gray-600">
-              Wróć do strony głównej aby dokończyć konfigurację profilu.
-            </p>
-            <Link
-              className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-max mx-auto"
-              href="/"
-            >
-              Strona główna
-            </Link>
+        <>
+          <Script
+            id="google-ads"
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-6XV8R4XZKS"
+          >
+            {`
+          window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-6XV8R4XZKS');
+        `}
+          </Script>
+
+          <div className="flex items-center justify-center w-full h-screen text-center">
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto space-y-3">
+              <h1 className="text-2xl font-bold text-green-500">
+                Transakcja przebiegła pomyślnie!
+              </h1>
+              <p className="text-lg text-gray-600">
+                Wróć do strony głównej aby dokończyć konfigurację profilu.
+              </p>
+              <Link
+                className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-max mx-auto"
+                href="/"
+              >
+                Strona główna
+              </Link>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
