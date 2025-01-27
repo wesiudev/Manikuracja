@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import { Providers } from "@/redux/Provider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Script from "next/script";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default async function RootLayout({
       <body
         className={`lg:pl-[300px] ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script id="googleads">{`gtag('config', 'AW-10818390066');`}</Script>
         <div className="fixed left-0 top-0 w-full h-screen infinite-bg z-[-1]"></div>
         <ToastContainer />
         <Providers>
