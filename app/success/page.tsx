@@ -72,7 +72,7 @@ function Success() {
             src="https://www.googletagmanager.com/gtag/js?id=G-6XV8R4XZKS"
           >
             {`
-          window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-6XV8R4XZKS');
+          gtag('event', 'conversion', { 'send_to': 'AW-10818390066/zwzzCNHu7ZUaELKQzqYo', 'transaction_id': '' });
         `}
           </Script>
 

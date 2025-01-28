@@ -25,6 +25,13 @@ export default async function RootLayout({
       <body
         className={`lg:pl-[300px] ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-6XV8R4XZKS"
+          id="google-ads-analytics"
+        >
+          {` window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-6XV8R4XZKS');`}
+        </Script>
         <Script id="googleads">{`gtag('config', 'AW-10818390066');`}</Script>
         <div className="fixed left-0 top-0 w-full h-screen infinite-bg z-[-1]"></div>
         <ToastContainer />
