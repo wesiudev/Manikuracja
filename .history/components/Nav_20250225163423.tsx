@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,7 +7,7 @@ import { RootState } from "@/redux/store";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 import { setUser, initialState } from "@/redux/slices/user";
-import DownloadApp from "./Navigation/DownloadApp";
+import logo from "../public/logo.png";
 
 export default function Header() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -17,6 +18,7 @@ export default function Header() {
     signOut(auth);
     dispatch(setUser(initialState.user));
   };
+
   return (
     <>
       <header className="bg-red-800 shadow-md w-full fixed top-0 left-0 z-[150]">
@@ -25,8 +27,8 @@ export default function Header() {
             MANIKURACJA
           </Link>
 
-          <nav className="flex gap-6 text-white items-center">
-            <DownloadApp />
+          <nav className="flex gap-6 text-white">
+            <Link href="/">Home</Link>
             <Link href="/blog">Blog</Link>
             {user?.uid ? (
               <button
@@ -39,15 +41,15 @@ export default function Header() {
               <div className="flex gap-4">
                 <button
                   onClick={() => router.push("/login")}
-                  className="text-white hover:text-blue-300"
+                  className="text-blue-500 hover:text-blue-700"
                 >
-                  Zaloguj
+                  Login
                 </button>
                 <button
                   onClick={() => router.push("/register")}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                  Zarejestruj
+                  Sign Up
                 </button>
               </div>
             )}

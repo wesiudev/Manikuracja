@@ -13,9 +13,6 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-      fontFamily: {
-        archivo: ["var(--font-archivo-black)", "sans-serif"],
-      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

@@ -1,15 +1,21 @@
-import { Archivo_Black } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import { Providers } from "@/redux/Provider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Script from "next/script";
-
-const archivoBlack = Archivo_Black({
-  weight: "400",
-  variable: "--font-archivo-black",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const;
 
 export default async function RootLayout({
   children,
@@ -18,7 +24,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${archivoBlack.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-6XV8R4XZKS"

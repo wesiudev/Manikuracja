@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,7 +7,7 @@ import { RootState } from "@/redux/store";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 import { setUser, initialState } from "@/redux/slices/user";
-import DownloadApp from "./Navigation/DownloadApp";
+import logo from "../public/logo.png";
 
 export default function Header() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -17,17 +18,28 @@ export default function Header() {
     signOut(auth);
     dispatch(setUser(initialState.user));
   };
+
   return (
     <>
-      <header className="bg-red-800 shadow-md w-full fixed top-0 left-0 z-[150]">
+      <header className="bg-red-600 shadow-md w-full fixed top-0 left-0 z-[150]">
         <div className="container mx-auto flex justify-between items-center p-4">
-          <Link href="/" className=" font-archivo text-3xl text-white">
-            MANIKURACJA
+          <Link href="/">
+            <Image
+              src={logo}
+              alt="Logo"
+              width={120}
+              height={40}
+              className="cursor-pointer"
+            />
           </Link>
 
-          <nav className="flex gap-6 text-white items-center">
-            <DownloadApp />
-            <Link href="/blog">Blog</Link>
+          <nav className="flex gap-6">
+            <Link href="/" className="text-gray-700 hover:text-black">
+              Home
+            </Link>
+            <Link href="/blog" className="text-gray-700 hover:text-black">
+              Blog
+            </Link>
             {user?.uid ? (
               <button
                 onClick={logout}
@@ -39,15 +51,15 @@ export default function Header() {
               <div className="flex gap-4">
                 <button
                   onClick={() => router.push("/login")}
-                  className="text-white hover:text-blue-300"
+                  className="text-blue-500 hover:text-blue-700"
                 >
-                  Zaloguj
+                  Login
                 </button>
                 <button
                   onClick={() => router.push("/register")}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                  Zarejestruj
+                  Sign Up
                 </button>
               </div>
             )}

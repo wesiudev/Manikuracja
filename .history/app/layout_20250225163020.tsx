@@ -1,4 +1,4 @@
-import { Archivo_Black } from "next/font/google";
+import { Geist, Geist_Mono, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import { Providers } from "@/redux/Provider";

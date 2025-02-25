@@ -15,7 +15,6 @@ export default {
       },
       fontFamily: {
         archivo: ["var(--font-archivo-black)", "sans-serif"],
-      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

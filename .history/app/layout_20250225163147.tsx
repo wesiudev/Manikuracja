@@ -18,7 +18,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${archivoBlack.variable} antialiased`}>
+      <body className={`${archivoBlack.variable} font-archivo antialiased`}>
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-6XV8R4XZKS"
