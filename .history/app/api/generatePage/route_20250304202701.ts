@@ -1,0 +1,48 @@
+import { NextRequest, NextResponse } from "next/server";
+import { createChat } from "completions";
+// import { db } from "@/firebase";
+// import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+
+export async function POST(req: NextRequest) {
+  const data = await req.json();
+  const chat = createChat({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: "gpt-4",
+  });
+
+  // Send the initial message and wait for response
+  await chat.sendMessage("Ping");
+
+  const response = await chat.sendMessage(
+    `You are generating content for a Polish website about Nails, Manicure, Pedicure in towns and streets of Poland. Dont use postal codes in googleTitle eg. "04-608 Warszawa". Please provide propper polish grammary and variety: eg. not "Maicure na Płowiecka 40" but "Manicure na Płowieckiej 40" The page you should generate is: "${data.place}", "/${data.id}"`,
+    {
+      expect: {
+        examples: [
+          {
+            googleTitle:
+              "Paznokcie Warszawa Mokotów - Ranking Salonów Manicure",
+          },
+        ],
+        properties: {
+          response: {
+            googleTitle: "string",
+          },
+        },
+        schema: {
+          additionalProperties: true,
+          type: "object",
+          properties: {
+            response: { type: "object" },
+          },
+          required: ["googleTitle"],
+        },
+      },
+    }
+  );
+  console.log(response);
+  return NextResponse.json({
+    pageData: response,
+    id: data.id,
+    place: data.place,
+  });
+}

@@ -74,7 +74,7 @@ export default function Logic({ slugCity }: { slugCity?: string }) {
       <div className="relative w-full">
         <label
           htmlFor="city"
-          className="bg-red-800 px-[1rem] py-[0.4rem] block w-max text-white text-lg font-bold"
+          className="bg-blue-400 px-[1rem] py-[0.4rem] block w-max text-white text-lg font-bold"
         >
           Miasto
         </label>

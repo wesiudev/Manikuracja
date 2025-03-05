@@ -85,13 +85,13 @@ export default function Logic({ slugCity }: { slugCity?: string }) {
           onChange={(e) => setCity({ ...city, name: e.target.value })}
           placeholder={slugCity || "Wpisz miasto"}
           style={{ boxShadow: "inset 0px 0px 4px #000" }}
-          className="bg-black/50 placeholder:text-white z-[91] block mt-1 sm:max-w-1/2 px-2 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-800"
+          className="bg-black/50 placeholder:text-white z-[91] block mt-1 sm:max-w-1/2 px-2 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           autoComplete="off"
           list="no-autocomplete"
         />
         <button
           type="button"
-          className="z-[50] w-max max-w-full py-2 lg:py-0 lg:h-3/5 px-6 text-lg bg-red-800 text-white hover:bg-pink-600 disabled:bg-gray-300"
+          className="z-[50] w-max max-w-full py-2 lg:py-0 lg:h-3/5 px-6 text-lg bg-blue-400 text-white hover:bg-pink-600 disabled:bg-gray-300"
           onClick={search}
         >
           SZUKAJ

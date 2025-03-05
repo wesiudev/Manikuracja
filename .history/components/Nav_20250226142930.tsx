@@ -19,7 +19,7 @@ export default function Header() {
   };
   return (
     <>
-      <header className="bg-red-800/50 shadow-md w-full fixed top-0 left-0 z-[150]">
+      <header className="bg-blue-400/50 shadow-md w-full fixed top-0 left-0 z-[150]">
         <div className="container mx-auto flex justify-between items-center p-4">
           <Link href="/" className=" font-archivo text-3xl text-white">
             MANIKURACJA

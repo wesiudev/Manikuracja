@@ -19,7 +19,7 @@ export default function ProfileConfig() {
           e.stopPropagation();
         }}
         style={{ boxShadow: "inset 0px 0px 12px #000" }}
-        className="w-full h-max mx-auto p-12 shadow-sm shadow-zinc-800 bg-red-800"
+        className="w-full h-max mx-auto p-12 shadow-sm shadow-zinc-800 bg-blue-400"
       >
         <h2 className="text-2xl sm:text-3xl font-bold text-center">
           Utwórz profil specjalisty

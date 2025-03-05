@@ -20,7 +20,7 @@ export default function Header() {
       <header className="shadow-md font-archivo w-full">
         <div
           style={{ boxShadow: "inset 0px 0px 12px #000" }}
-          className="bg-red-800 p-4"
+          className="bg-blue-400 p-4"
         >
           <Link
             href="/"
@@ -29,7 +29,7 @@ export default function Header() {
             MANIKURACJA
           </Link>
         </div>
-        <nav className="text-white fixed bottom-0 left-0 bg-red-800 max-h-[100px] w-full p-4 z-50">
+        <nav className="text-white fixed bottom-0 left-0 bg-blue-400 max-h-[100px] w-full p-4 z-50">
           <div className="my-3 space-x-3 flex items-center  -translate-y-1/2">
             <Link href="/blog" className="hover:text-blue-300">
               BLOG

@@ -22,7 +22,7 @@ export default function Header() {
       <header className="shadow-md w-full">
         <div
           style={{ boxShadow: "inset 0 -4px 0 #000" }}
-          className="bg-red-800 p-4"
+          className="bg-blue-400 p-4"
         >
           <Link
             href="/"

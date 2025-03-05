@@ -36,7 +36,7 @@ export default function Header() {
       <header className="shadow-md font-archivo w-full">
         <div
           style={{ boxShadow: "inset 0px 0px 12px #000" }}
-          className="bg-red-800 p-4"
+          className="bg-blue-400 p-4"
         >
           <Link
             href="/"
@@ -46,7 +46,7 @@ export default function Header() {
           </Link>
         </div>
         <nav
-          className={`${} text-white fixed bottom-0 left-0 bg-red-800 w-full p-4 z-50`}
+          className={`${} text-white fixed bottom-0 left-0 bg-blue-400 w-full p-4 z-50`}
         >
           <DownloadApp />
           <div className="my-3 space-x-3">

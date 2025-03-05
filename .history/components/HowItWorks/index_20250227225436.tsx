@@ -31,7 +31,7 @@ export default function HowItWorks() {
               {" "}
               <Link
                 href={item.url}
-                className="text-2xl bg-red-800 p-2 px-3 w-full flex items-center justify-center lg:block lg:text-left lg:w-max text-white lg:rounded-xl"
+                className="text-2xl bg-blue-400 p-2 px-3 w-full flex items-center justify-center lg:block lg:text-left lg:w-max text-white lg:rounded-xl"
               >
                 <strong className="flex flex-row items-center text-center">
                   <item.icon className="mr-2 hidden lg:block" /> {item.title}
@@ -61,7 +61,7 @@ export default function HowItWorks() {
                 currentHover === i
                   ? "opacity-100 scale-105 lg:translate-x-[21PX]"
                   : "opacity-60 scale-100"
-              } duration-200 p-5 lg:p-3 aspect-square lg:aspect-auto lg:rounded-xl justify-center bg-red-800 text-2xl text-white drop-shadow-xl shadow-black flex flex-row items-center lg:justify-between`}
+              } duration-200 p-5 lg:p-3 aspect-square lg:aspect-auto lg:rounded-xl justify-center bg-blue-400 text-2xl text-white drop-shadow-xl shadow-black flex flex-row items-center lg:justify-between`}
             >
               <strong className=" flex flex-row items-center">
                 <item.icon className="lg:mr-2" />{" "}

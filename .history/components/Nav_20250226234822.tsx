@@ -41,7 +41,7 @@ export default function Header() {
       <header className="shadow-md font-archivo w-full">
         <div
           style={{ boxShadow: "inset 0px 0px 12px #000" }}
-          className="bg-red-800 p-4"
+          className="bg-blue-400 p-4"
         >
           <Link
             href="/"
@@ -51,7 +51,7 @@ export default function Header() {
           </Link>
         </div>
         <nav
-          className={`text-white fixed bottom-0 left-0 bg-red-800 max-h-[60px] w-full p-4 z-50 ${
+          className={`text-white fixed bottom-0 left-0 bg-blue-400 max-h-[60px] w-full p-4 z-50 ${
             scrolledBottom ? "translate-y-[300px]" : "translate-y-0"
           } duration-300`}
         >

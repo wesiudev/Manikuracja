@@ -20,7 +20,7 @@ export default function Header() {
   return (
     <>
       <header className="shadow-md w-full">
-        <div className="bg-red-800 container mx-auto flex justify-center items-center p-4">
+        <div className="bg-blue-400 container mx-auto flex justify-center items-center p-4">
           <Link
             href="/"
             className="text-center font-archivo text-3xl text-white"

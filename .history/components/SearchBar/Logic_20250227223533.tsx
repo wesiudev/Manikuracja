@@ -79,7 +79,7 @@ export default function Logic({ slugCity }: { slugCity?: string }) {
           onChange={(e) => setCity({ ...city, name: e.target.value })}
           placeholder={slugCity || "Wpisz miasto"}
           style={{ boxShadow: "inset 0px 0px 4px #000" }}
-          className="bg-black/50 text-lg placeholder:text-white z-[91] block sm:max-w-1/2 px-2 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-800"
+          className="bg-black/50 text-lg placeholder:text-white z-[91] block sm:max-w-1/2 px-2 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           autoComplete="off"
           list="no-autocomplete"
         />
@@ -107,7 +107,7 @@ export default function Logic({ slugCity }: { slugCity?: string }) {
                 key={index}
                 className={`${
                   index % 2 === 0 ? "bg-slate-300" : "bg-slate-200"
-                } px-4 py-2 hover:bg-red-800 hover:text-white cursor-pointer`}
+                } px-4 py-2 hover:bg-blue-400 hover:text-white cursor-pointer`}
                 onClick={() => {
                   setCity({ ...city, name: c.name, id: c.id });
                   setCurrentCitiesArray([]);

@@ -20,7 +20,7 @@ export default function Header() {
   return (
     <>
       <header className="shadow-md w-full">
-        <div className="bg-red-800 p-4">
+        <div className="bg-blue-400 p-4">
           <Link
             href="/"
             style={{ boxShadow: "inset 0 -4px 0 #fff" }}
